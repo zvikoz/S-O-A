@@ -24,6 +24,66 @@
   <link rel="preload" as="image" href="media/hero_hands.png">
 
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Slow zoom on the hero background image */
+    @keyframes heroZoom {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(1.08);
+      }
+    }
+
+    .hero-zoom {
+      animation: heroZoom 18s ease-in-out infinite alternate;
+      transform-origin: center;
+    }
+
+    /* Soft moving light overlay */
+    @keyframes heroGlow {
+      0% {
+        transform: translate3d(-10%, -10%, 0) scale(1);
+        opacity: 0.3;
+      }
+      50% {
+        transform: translate3d(10%, 5%, 0) scale(1.1);
+        opacity: 0.55;
+      }
+      100% {
+        transform: translate3d(-5%, 10%, 0) scale(1.05);
+        opacity: 0.35;
+      }
+    }
+
+    .hero-glow {
+      position: absolute;
+      inset: -20%;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(249,115,22,0.25), transparent 55%),
+        radial-gradient(circle at 80% 70%, rgba(249,115,22,0.18), transparent 60%);
+      mix-blend-mode: screen;
+      pointer-events: none;
+      animation: heroGlow 26s ease-in-out infinite alternate;
+    }
+
+    /* Subtle fade up for hero content */
+    @keyframes heroFadeUp {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 16px, 0);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    .hero-fade-up {
+      animation: heroFadeUp 900ms ease-out forwards;
+    }
+  </style>
 </head>
 
 <body class="bg-black text-gray-200 font-sans selection:bg-orange-500 selection:text-black">
@@ -53,9 +113,13 @@
   <img
     src="media/hero_hands.png"
     alt="Two hands reaching towards each other in warm light"
-    class="absolute inset-0 w-full h-full object-cover opacity-40"
+    class="absolute inset-0 w-full h-full object-cover opacity-40 hero-zoom"
   />
-  <div class="relative z-10 text-center max-w-2xl px-6">
+
+  <!-- Soft animated glow overlay -->
+  <div class="hero-glow"></div>
+
+  <div class="relative z-10 text-center max-w-2xl px-6 hero-fade-up">
     <h1 class="text-4xl md:text-6xl font-semibold tracking-tight mb-6">
       Cook. Create. Connect.
     </h1>
@@ -143,7 +207,7 @@
   </h2>
 
   <div class="grid md:grid-cols-2 gap-12">
-    <div>
+    <div class="group bg-white/0 rounded-2xl p-1 transform transition-transform duration-500 hover:-translate-y-2">
       <img
         src="media/shoreline_silence.png"
         alt="Calm shoreline at dawn reflecting pastel sky"
@@ -153,7 +217,7 @@
       <h3 class="text-lg font-medium mb-1">Vivid Views</h3>
       <p class="text-gray-400 text-sm">Presence, not performance.</p>
     </div>
-    <div>
+    <div class="group bg-white/0 rounded-2xl p-1 transform transition-transform duration-500 hover:-translate-y-2">
       <img
         src="media/open_horizon.png"
         alt="A wide seascape with an open sky and calm sea"
@@ -163,7 +227,7 @@
       <h3 class="text-lg font-medium mb-1">Love and Life</h3>
       <p class="text-gray-400 text-sm">Space to breathe inside the moment.</p>
     </div>
-    <div>
+    <div class="group bg-white/0 rounded-2xl p-1 transform transition-transform duration-500 hover:-translate-y-2">
       <img
         src="media/candle_circle.png"
         alt="A warm candle circle in darkness"
@@ -173,7 +237,7 @@
       <h3 class="text-lg font-medium mb-1">Ritual</h3>
       <p class="text-gray-400 text-sm">Light holding the dark.</p>
     </div>
-    <div>
+    <div class="group bg-white/0 rounded-2xl p-1 transform transition-transform duration-500 hover:-translate-y-2">
       <img
         src="media/city_crosswalk.png"
         alt="People crossing with an orange umbrella at night"
@@ -198,7 +262,7 @@
 
   <div class="grid gap-8 md:grid-cols-2">
     <iframe
-      class="rounded-2xl border border-white/10"
+      class="rounded-2xl border border-white/10 transform transition-transform duration-500 hover:scale-105"
       src="https://open.spotify.com/embed/playlist/24V7Kz8fiT75iZ7GV782ze"
       width="100%"
       height="352"
@@ -208,7 +272,7 @@
       title="Mulberry Mix 1">
     </iframe>
     <iframe
-      class="rounded-2xl border border-white/10"
+      class="rounded-2xl border border-white/10 transform transition-transform duration-500 hover:scale-105"
       src="https://open.spotify.com/embed/playlist/0tM0unRHtx4J3McyQDvLHr"
       width="100%"
       height="352"
