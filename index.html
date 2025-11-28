@@ -68,6 +68,63 @@
       animation: heroGlow 26s ease-in-out infinite alternate;
     }
 
+    /* Floating orbs for extra motion */
+    @keyframes heroOrbFloatOne {
+      0% {
+        transform: translate3d(-10%, 10%, 0) scale(1);
+        opacity: 0.18;
+      }
+      50% {
+        transform: translate3d(5%, -5%, 0) scale(1.15);
+        opacity: 0.35;
+      }
+      100% {
+        transform: translate3d(-5%, 0%, 0) scale(1.05);
+        opacity: 0.22;
+      }
+    }
+
+    @keyframes heroOrbFloatTwo {
+      0% {
+        transform: translate3d(15%, -5%, 0) scale(1);
+        opacity: 0.16;
+      }
+      50% {
+        transform: translate3d(-10%, 10%, 0) scale(1.2);
+        opacity: 0.3;
+      }
+      100% {
+        transform: translate3d(5%, 0%, 0) scale(1.05);
+        opacity: 0.2;
+      }
+    }
+
+    .hero-orb {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(18px);
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .hero-orb-1 {
+      width: 240px;
+      height: 240px;
+      top: 15%;
+      left: 8%;
+      background: radial-gradient(circle, rgba(249,115,22,0.45), transparent 60%);
+      animation: heroOrbFloatOne 30s ease-in-out infinite alternate;
+    }
+
+    .hero-orb-2 {
+      width: 260px;
+      height: 260px;
+      bottom: 5%;
+      right: 12%;
+      background: radial-gradient(circle, rgba(249,115,22,0.35), transparent 60%);
+      animation: heroOrbFloatTwo 34s ease-in-out infinite alternate;
+    }
+
     /* Subtle fade up for hero content */
     @keyframes heroFadeUp {
       0% {
@@ -84,6 +141,27 @@
       animation: heroFadeUp 900ms ease-out forwards;
     }
 
+    /* Scroll indicator motion */
+    @keyframes scrollDot {
+      0% {
+        transform: translateY(4px);
+        opacity: 0.1;
+      }
+      40% {
+        transform: translateY(14px);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateY(18px);
+        opacity: 0;
+      }
+    }
+
+    .scroll-dot {
+      animation: scrollDot 1500ms ease-out infinite;
+      transform-origin: center;
+    }
+
     @media (max-width: 640px) {
       .hero-zoom {
         animation-duration: 26s;
@@ -94,7 +172,10 @@
     @media (prefers-reduced-motion: reduce) {
       .hero-zoom,
       .hero-glow,
-      .hero-fade-up {
+      .hero-fade-up,
+      .hero-orb-1,
+      .hero-orb-2,
+      .scroll-dot {
         animation: none !important;
       }
     }
@@ -161,7 +242,16 @@
     alt="Two hands reaching towards each other in warm light"
     class="absolute inset-0 w-full h-full object-cover opacity-40 hero-zoom"
   />
+
+  <!-- Extra motion orbs -->
+  <div class="pointer-events-none absolute inset-0 z-0">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+  </div>
+
+  <!-- Soft animated glow overlay -->
   <div class="hero-glow"></div>
+
   <div class="relative z-10 text-center max-w-xl md:max-w-2xl px-4 md:px-6 hero-fade-up">
     <h1 class="text-3xl sm:text-4xl md:text-6xl font-semibold tracking-tight mb-4 md:mb-6">
       Cook. Create. Connect.
@@ -169,9 +259,22 @@
     <p class="text-base sm:text-lg text-gray-300 mb-6 md:mb-8">
       Small moments of wonder. Shared without hurry.
     </p>
-    <a href="#gallery" class="inline-block bg-orange-500 text-black px-6 py-3 rounded-xl font-medium hover:bg-orange-400 transition">
+    <a
+      href="#stories"
+      class="inline-block bg-orange-500 text-black px-6 py-3 rounded-xl font-medium hover:bg-orange-400 transition"
+    >
       Enter
     </a>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 inset-x-0 flex justify-center z-10">
+    <div class="flex flex-col items-center text-[0.65rem] tracking-wide text-gray-400 uppercase">
+      <span class="mb-1">Scroll</span>
+      <div class="w-6 h-10 rounded-full border border-white/25 flex items-start justify-center overflow-hidden">
+        <span class="scroll-dot w-1 h-3 bg-orange-500 rounded-full mt-1"></span>
+      </div>
+    </div>
   </div>
 </section>
 
