@@ -83,47 +83,90 @@
     .hero-fade-up {
       animation: heroFadeUp 900ms ease-out forwards;
     }
+
+    @media (max-width: 640px) {
+      .hero-zoom {
+        animation-duration: 26s;
+        transform-origin: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-zoom,
+      .hero-glow,
+      .hero-fade-up {
+        animation: none !important;
+      }
+    }
   </style>
 </head>
 
 <body class="bg-black text-gray-200 font-sans selection:bg-orange-500 selection:text-black">
 
 <header class="sticky top-0 z-50 bg-black/90 backdrop-blur border-b border-white/10">
-  <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-    <div class="text-2xl font-semibold tracking-wide text-orange-500">
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
+    <div class="text-lg md:text-2xl font-semibold tracking-wide text-orange-500">
       Stories of Amazement
     </div>
-    <nav class="flex gap-6 text-sm text-gray-300">
-      <a href="#top" class="hover:text-white">Home</a>
-      <a href="#submit" class="hover:text-white">Submit</a>
-      <a href="#stories" class="hover:text-white">About</a>
-      <a href="#gallery" class="hover:text-white">Archive</a>
-    </nav>
-    <input
-      type="search"
-      placeholder="Search stories..."
-      class="bg-white/5 border border-white/10 rounded-lg px-4 py-1.5 text-sm placeholder-gray-500 focus:outline-none focus:border-orange-500"
-    />
+
+    <!-- Desktop nav -->
+    <div class="hidden md:flex items-center gap-6">
+      <nav class="flex gap-6 text-sm text-gray-300">
+        <a href="#top" class="hover:text-white">Home</a>
+        <a href="#submit" class="hover:text-white">Submit</a>
+        <a href="#stories" class="hover:text-white">About</a>
+        <a href="#gallery" class="hover:text-white">Archive</a>
+      </nav>
+      <input
+        type="search"
+        placeholder="Search stories..."
+        class="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm placeholder-gray-500 focus:outline-none focus:border-orange-500"
+      />
+    </div>
+
+    <!-- Mobile menu button -->
+    <button
+      class="md:hidden inline-flex items-center justify-center rounded-lg border border-white/10 px-2.5 py-1.5 text-xs text-gray-300"
+      type="button"
+      onclick="toggleMobileNav()"
+      aria-label="Toggle navigation"
+    >
+      Menu
+    </button>
+  </div>
+
+  <!-- Mobile nav panel -->
+  <div id="mobile-nav" class="md:hidden hidden border-t border-white/10 bg-black/95">
+    <div class="px-4 py-3 space-y-3">
+      <input
+        type="search"
+        placeholder="Search stories..."
+        class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm placeholder-gray-500 focus:outline-none focus:border-orange-500"
+      />
+      <nav class="flex flex-col gap-2 text-sm text-gray-300">
+        <a href="#top" class="py-1 hover:text-white" onclick="toggleMobileNav()">Home</a>
+        <a href="#submit" class="py-1 hover:text-white" onclick="toggleMobileNav()">Submit</a>
+        <a href="#stories" class="py-1 hover:text-white" onclick="toggleMobileNav()">About</a>
+        <a href="#gallery" class="py-1 hover:text-white" onclick="toggleMobileNav()">Archive</a>
+      </nav>
+    </div>
   </div>
 </header>
 
 <a id="top"></a>
 
-<section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+<section class="relative min-h-[75vh] md:min-h-[85vh] flex items-center justify-center overflow-hidden">
   <img
     src="media/hero_hands.png"
     alt="Two hands reaching towards each other in warm light"
     class="absolute inset-0 w-full h-full object-cover opacity-40 hero-zoom"
   />
-
-  <!-- Soft animated glow overlay -->
   <div class="hero-glow"></div>
-
-  <div class="relative z-10 text-center max-w-2xl px-6 hero-fade-up">
-    <h1 class="text-4xl md:text-6xl font-semibold tracking-tight mb-6">
+  <div class="relative z-10 text-center max-w-xl md:max-w-2xl px-4 md:px-6 hero-fade-up">
+    <h1 class="text-3xl sm:text-4xl md:text-6xl font-semibold tracking-tight mb-4 md:mb-6">
       Cook. Create. Connect.
     </h1>
-    <p class="text-lg text-gray-300 mb-8">
+    <p class="text-base sm:text-lg text-gray-300 mb-6 md:mb-8">
       Small moments of wonder. Shared without hurry.
     </p>
     <a href="#gallery" class="inline-block bg-orange-500 text-black px-6 py-3 rounded-xl font-medium hover:bg-orange-400 transition">
@@ -132,7 +175,7 @@
   </div>
 </section>
 
-<section id="stories" class="max-w-3xl mx-auto px-6 py-16">
+<section id="stories" class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
   <h2 class="text-3xl font-semibold mb-8 text-center">
     Stories
     <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
@@ -145,11 +188,9 @@
     <p class="text-sm text-gray-400 mb-4">
       A Story of Amazement by ZZ · Story · Published today
     </p>
-
     <p class="text-sm text-gray-200 mb-4">
       Once, we trusted men in overcoats and chaos, bus conductors like Dhivha Dollar whose name was both a joke and a hope. Today the paper is gone, but the faith remains.
     </p>
-
     <button
       type="button"
       id="dhivha-toggle"
@@ -158,7 +199,6 @@
     >
       Read more
     </button>
-
     <div id="dhivha-full" class="space-y-4 text-sm text-gray-200 leading-relaxed hidden">
       <p><strong>Then: Dhivha's Road</strong><br>
         Once, we trusted men in overcoats and chaos - bus conductors like Dhivha Dollar, whose name was both a joke and a hope. You would slip your child's school fees into an envelope, fold your prayers into it, and hand it over. The rest was faith. Today, the paper is gone. But the faith remains.
@@ -200,49 +240,68 @@
   </article>
 </section>
 
-<section id="gallery" class="max-w-6xl mx-auto px-6 py-20">
+<section id="gallery" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
   <h2 class="text-3xl font-semibold mb-12 text-center">
     Picasso's Playground
     <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
   </h2>
 
   <div class="grid md:grid-cols-2 gap-12">
-    <div class="group bg-white/0 rounded-2xl p-1 transform transition-transform duration-500 hover:-translate-y-2">
+    <div
+      class="group bg-white/0 rounded-2xl p-1 transform transition-transform duration-500 hover:-translate-y-2 cursor-pointer"
+      onclick="openLightbox('media/shoreline_silence.png','Vivid Views')"
+      role="button"
+    >
       <img
         src="media/shoreline_silence.png"
         alt="Calm shoreline at dawn reflecting pastel sky"
-        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer"
-        onclick="openLightbox('media/shoreline_silence.png','Vivid Views')"
+        class="rounded-xl mb-4 w-full h-64 object-cover"
+        loading="lazy"
       />
       <h3 class="text-lg font-medium mb-1">Vivid Views</h3>
       <p class="text-gray-400 text-sm">Presence, not performance.</p>
     </div>
-    <div class="group bg-white/0 rounded-2xl p-1 transform transition-transform duration-500 hover:-translate-y-2">
+
+    <div
+      class="group bg-white/0 rounded-2xl p-1 transform transition-transform duration-500 hover:-translate-y-2 cursor-pointer"
+      onclick="openLightbox('media/open_horizon.png','Love and Life')"
+      role="button"
+    >
       <img
         src="media/open_horizon.png"
         alt="A wide seascape with an open sky and calm sea"
-        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer"
-        onclick="openLightbox('media/open_horizon.png','Love and Life')"
+        class="rounded-xl mb-4 w-full h-64 object-cover"
+        loading="lazy"
       />
       <h3 class="text-lg font-medium mb-1">Love and Life</h3>
       <p class="text-gray-400 text-sm">Space to breathe inside the moment.</p>
     </div>
-    <div class="group bg-white/0 rounded-2xl p-1 transform transition-transform duration-500 hover:-translate-y-2">
+
+    <div
+      class="group bg-white/0 rounded-2xl p-1 transform transition-transform duration-500 hover:-translate-y-2 cursor-pointer"
+      onclick="openLightbox('media/candle_circle.png','Ritual')"
+      role="button"
+    >
       <img
         src="media/candle_circle.png"
         alt="A warm candle circle in darkness"
-        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer"
-        onclick="openLightbox('media/candle_circle.png','Ritual')"
+        class="rounded-xl mb-4 w-full h-64 object-cover"
+        loading="lazy"
       />
       <h3 class="text-lg font-medium mb-1">Ritual</h3>
       <p class="text-gray-400 text-sm">Light holding the dark.</p>
     </div>
-    <div class="group bg-white/0 rounded-2xl p-1 transform transition-transform duration-500 hover:-translate-y-2">
+
+    <div
+      class="group bg-white/0 rounded-2xl p-1 transform transition-transform duration-500 hover:-translate-y-2 cursor-pointer"
+      onclick="openLightbox('media/city_crosswalk.png','Passing Through')"
+      role="button"
+    >
       <img
         src="media/city_crosswalk.png"
         alt="People crossing with an orange umbrella at night"
-        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer"
-        onclick="openLightbox('media/city_crosswalk.png','Passing Through')"
+        class="rounded-xl mb-4 w-full h-64 object-cover"
+        loading="lazy"
       />
       <h3 class="text-lg font-medium mb-1">Passing Through</h3>
       <p class="text-gray-400 text-sm">We cross paths more than we realise.</p>
@@ -250,7 +309,7 @@
   </div>
 </section>
 
-<section id="music" class="max-w-5xl mx-auto px-6 pb-20">
+<section id="music" class="max-w-5xl mx-auto px-4 sm:px-6 pb-16 sm:pb-20">
   <h2 class="text-3xl font-semibold mb-8 text-center">
     Mulberry Music
     <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
@@ -271,8 +330,9 @@
       loading="lazy"
       title="Mulberry Mix 1">
     </iframe>
+
     <iframe
-      class="rounded-2xl border border-white/10 transform transition-transform duration-500 hover:scale-105"
+      class="hidden sm:block rounded-2xl border border-white/10 transform transition-transform duration-500 hover:scale-105"
       src="https://open.spotify.com/embed/playlist/0tM0unRHtx4J3McyQDvLHr"
       width="100%"
       height="352"
@@ -282,10 +342,13 @@
       title="Mulberry Mix 2">
     </iframe>
   </div>
+
+  <p class="mt-4 text-center text-xs text-gray-500 sm:hidden">
+    Mulberry Mix 2 is available on the full site.
+  </p>
 </section>
 
-<!-- New fashion segment -->
-<section id="fashion" class="max-w-5xl mx-auto px-6 pb-20">
+<section id="fashion" class="max-w-5xl mx-auto px-4 sm:px-6 pb-16 sm:pb-20">
   <h2 class="text-3xl font-semibold mb-8 text-center">
     Thrifted Threads
     <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
@@ -296,6 +359,7 @@
       src="media/tinopfeka_tsiki.png"
       alt="Tinopfeka Tsiki fashion artwork"
       class="w-full h-80 object-cover"
+      loading="lazy"
     />
     <div class="p-6 md:p-8">
       <h3 class="text-lg font-medium mb-2">Tinopfeka Tsiki</h3>
@@ -306,39 +370,49 @@
   </div>
 </section>
 
-<section id="submit" class="bg-white/5 py-20">
-  <div class="max-w-xl mx-auto px-6 text-center">
+<section id="submit" class="bg-white/5 py-16 sm:py-20">
+  <div class="max-w-xl mx-auto px-4 sm:px-6 text-center">
     <img
       src="media/submit_cassette.png"
       alt="Cassette tape metaphor for story submission"
       class="w-32 mx-auto mb-6 opacity-80"
+      loading="lazy"
     />
     <h2 class="text-2xl font-semibold mb-4">Submit Your Story</h2>
     <p class="text-gray-400 mb-8">
       Got an imperfect thought, a quiet moment, a memory worth pausing on?
     </p>
-    <a href="#"
-       class="inline-block bg-orange-500 text-black px-6 py-3 rounded-xl font-medium hover:bg-orange-400 transition">
+    <a
+      href="#"
+      class="inline-block bg-orange-500 text-black px-6 py-3 rounded-xl font-medium hover:bg-orange-400 transition"
+    >
       Share
     </a>
   </div>
 </section>
 
 <footer class="border-t border-white/10 mt-20">
-  <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
     <span>© <span id="year"></span> Stories of Amazement</span>
     <span>Made with quiet intention.</span>
   </div>
 </footer>
 
-<div id="lightbox"
-     class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50"
-     onclick="closeLightbox()">
+<div
+  id="lightbox"
+  class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50"
+  onclick="closeLightbox()"
+>
   <img id="lightbox-img" class="max-w-[90vw] max-h-[90vh] rounded-xl shadow-2xl">
 </div>
 
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  function toggleMobileNav() {
+    const nav = document.getElementById("mobile-nav");
+    nav.classList.toggle("hidden");
+  }
 
   function openLightbox(src, title) {
     const lightbox = document.getElementById("lightbox");
@@ -370,3 +444,4 @@
 
 </body>
 </html>
+```0
