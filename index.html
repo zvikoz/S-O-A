@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stories of Amazement</title>
+  <meta name="description" content="Short reflections, images, audio and playlists about human amazement and connection." />
+
+  <link rel="canonical" href="https://your-domain.example/" />
+  <meta name="theme-color" content="#000000" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Stories of Amazement" />
+  <meta property="og:description" content="Short reflections, images, audio and playlists about human amazement and connection." />
+  <meta property="og:image" content="https://your-domain.example/og-cover.jpg" />
+  <meta property="og:url" content="https://your-domain.example/" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="robots" content="index, follow" />
+
+  <link rel="preconnect" href="https://open.spotify.com" crossorigin>
+  <link rel="preconnect" href="https://i.scdn.co" crossorigin>
+
+  <link rel="preload" as="image" href="media/hero_hands.png">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-black text-gray-200 font-sans selection:bg-orange-500 selection:text-black">
+
+<header class="sticky top-0 z-50 bg-black/90 backdrop-blur border-b border-white/10">
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+    <div class="text-2xl font-semibold tracking-wide text-orange-500">
+      Stories of Amazement
+    </div>
+    <nav class="flex gap-6 text-sm text-gray-300">
+      <a href="#top" class="hover:text-white">Home</a>
+      <a href="#submit" class="hover:text-white">Submit</a>
+      <a href="#stories" class="hover:text-white">About</a>
+      <a href="#gallery" class="hover:text-white">Archive</a>
+    </nav>
+    <input
+      type="search"
+      placeholder="Search stories..."
+      class="bg-white/5 border border-white/10 rounded-lg px-4 py-1.5 text-sm placeholder-gray-500 focus:outline-none focus:border-orange-500"
+    />
+  </div>
+</header>
+
+<a id="top"></a>
+
+<section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+  <img
+    src="media/hero_hands.png"
+    alt="Two hands reaching towards each other in warm light"
+    class="absolute inset-0 w-full h-full object-cover opacity-40"
+  />
+  <div class="relative z-10 text-center max-w-2xl px-6">
+    <h1 class="text-4xl md:text-6xl font-semibold tracking-tight mb-6">
+      Cook. Create. Connect.
+    </h1>
+    <p class="text-lg text-gray-300 mb-8">
+      Small moments of wonder. Shared without hurry.
+    </p>
+    <a href="#gallery" class="inline-block bg-orange-500 text-black px-6 py-3 rounded-xl font-medium hover:bg-orange-400 transition">
+      Enter
+    </a>
+  </div>
+</section>
+
+<section id="stories" class="max-w-3xl mx-auto px-6 py-16">
+  <h2 class="text-3xl font-semibold mb-8 text-center">
+    Stories
+    <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
+  </h2>
+
+  <article class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 mb-10">
+    <h3 class="text-xl md:text-2xl font-semibold mb-2">
+      From Dhivha Dollar to Cadence Chitsa
+    </h3>
+    <p class="text-sm text-gray-400 mb-4">
+      A Story of Amazement by ZZ · Story · Published today
+    </p>
+
+    <p class="text-sm text-gray-200 mb-4">
+      Once, we trusted men in overcoats and chaos, bus conductors like Dhivha Dollar whose name was both a joke and a hope. Today the paper is gone, but the faith remains.
+    </p>
+
+    <button
+      type="button"
+      id="dhivha-toggle"
+      class="text-sm font-medium text-orange-400 hover:text-orange-300 underline mb-4"
+      onclick="toggleDhivha()"
+    >
+      Read more
+    </button>
+
+    <div id="dhivha-full" class="space-y-4 text-sm text-gray-200 leading-relaxed hidden">
+      <p><strong>Then: Dhivha's Road</strong><br>
+        Once, we trusted men in overcoats and chaos - bus conductors like Dhivha Dollar, whose name was both a joke and a hope. You would slip your child's school fees into an envelope, fold your prayers into it, and hand it over. The rest was faith. Today, the paper is gone. But the faith remains.
+      </p>
+      <p><strong>A Mother's Midnight Plea</strong><br>
+        Predawn. Harare. Silence, then the sharp bark of a dog. A phone buzzes. A mother stirs. “ZWG 4,050 needed before 7am.” Her son's university registration hangs on that sum. A first-generation dream, one deadline away from slipping. In Esigodhini, a cousin empties her OneMoney. In Seke, ambuya's balance moves instantly. In Mkoba, an aunt at her tuckshop hesitates, then sends what she can, picturing his graduation. By sunrise, the bank message arrives. ZWG 4,050 received. The mother exhales, phone pressed to her cheek. A digital prayer answered.
+      </p>
+      <p><strong>Rise: The Market That Never Sleeps</strong><br>
+        As the sun climbs over Mbare Musika, the market hums. Tomatoes gleam. Voices rise. Phones buzz. At Mai Two's stall, money moves in silence. Customers pay through apps, InnBucks, USSD. No small talk, no hassle. Her balance grows with each tomato gone. By sundown, she has enough for her toddler's favourite, maJiggies. She walks home past Rufaro Stadium with nothing in her handbag but peace of mind. No fear. No bundles of cash. Just numbers and trust.
+      </p>
+      <p><strong>Hope: A Hospital Ward Glows</strong><br>
+        Night. Chitungwiza Hospital. Betty's thumb hovers over the family group: “Mhamha's surgery prep - $50 short.” In Warren Park, a brother half-wakes, sends money via Blue247. In Sakubva, an aunt chips in from her chicken project. Seconds later, Betty texts: “Zvaita. Thank you, vanhuVashe.” She slumps against the cold tile, warmed by the buzz of connection. Not just the network. The people.
+      </p>
+      <p><strong>Grief: Gokwe's Final Gathering</strong><br>
+        The next day, in Gokwe, a funeral is planned. The WhatsApp group flares: “US$500 needed for burial.” From across the nation, money trickles in. Transfers. Each amount small. Together, enough. By noon, the coffin is lowered with dignity. Not because people had much. But because they shared what they had. No one says it aloud. But they all know this is not just money. It is a promise. <em>We show up for each other.</em>
+      </p>
+      <p><strong>The Thread That Holds Us</strong><br>
+        We used to trust the road. Now we trust the invisible. Where once Dhivha Dollar ran with notes tucked in socks, now ZIPIT sends money from farm to flat, stall to surgery, in seconds. It is not flashy. It is not loud. It is survival turned seamless, a revolution disguised as routine.
+      </p>
+      <p><strong>This Is How We Rise</strong><br>
+        Every transaction is a leap of faith. Every transfer is more than money. It is sacrifice. It is hope. It is a whispered vow: <strong>we are in this together.</strong> We have always made a plan to survive. Now, through financial flexibility, we thrive.
+      </p>
+      <p><strong>Meet the Connectors</strong><br>
+        Behind every transfer, there is a story. And behind every story, someone like David Chitsa. David has worked in Zimswitch customer service for decades. He has answered late-night calls, solved frozen transfers, and calmed frantic voices. He does not just solve problems. He restores connection. People do not remember the app. They remember the person who helped them hold the line.
+      </p>
+    </div>
+  </article>
+
+  <article class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8">
+    <h3 class="text-xl md:text-2xl font-semibold mb-2">
+      Learner-ed Tembo
+    </h3>
+    <p class="text-sm text-gray-400 mb-4">
+      Chronicles of growth and discovery · Story · Pending
+    </p>
+    <p class="text-sm text-gray-200">
+      A quiet archive of experiments, lessons and gentle failures. This space is reserved for the unfolding notes of Learner-ed Tembo, once they are ready to be shared.
+    </p>
+  </article>
+</section>
+
+<section id="gallery" class="max-w-6xl mx-auto px-6 py-20">
+  <h2 class="text-3xl font-semibold mb-12 text-center">
+    Picasso's Playground
+    <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
+  </h2>
+
+  <div class="grid md:grid-cols-2 gap-12">
+    <div>
+      <img
+        src="media/shoreline_silence.png"
+        alt="Calm shoreline at dawn reflecting pastel sky"
+        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer"
+        onclick="openLightbox('media/shoreline_silence.png','Vivid Views')"
+      />
+      <h3 class="text-lg font-medium mb-1">Vivid Views</h3>
+      <p class="text-gray-400 text-sm">Presence, not performance.</p>
+    </div>
+    <div>
+      <img
+        src="media/open_horizon.png"
+        alt="A wide seascape with an open sky and calm sea"
+        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer"
+        onclick="openLightbox('media/open_horizon.png','Love and Life')"
+      />
+      <h3 class="text-lg font-medium mb-1">Love and Life</h3>
+      <p class="text-gray-400 text-sm">Space to breathe inside the moment.</p>
+    </div>
+    <div>
+      <img
+        src="media/candle_circle.png"
+        alt="A warm candle circle in darkness"
+        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer"
+        onclick="openLightbox('media/candle_circle.png','Ritual')"
+      />
+      <h3 class="text-lg font-medium mb-1">Ritual</h3>
+      <p class="text-gray-400 text-sm">Light holding the dark.</p>
+    </div>
+    <div>
+      <img
+        src="media/city_crosswalk.png"
+        alt="People crossing with an orange umbrella at night"
+        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer"
+        onclick="openLightbox('media/city_crosswalk.png','Passing Through')"
+      />
+      <h3 class="text-lg font-medium mb-1">Passing Through</h3>
+      <p class="text-gray-400 text-sm">We cross paths more than we realise.</p>
+    </div>
+  </div>
+</section>
+
+<section id="music" class="max-w-5xl mx-auto px-6 pb-20">
+  <h2 class="text-3xl font-semibold mb-8 text-center">
+    Mulberry Music
+    <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
+  </h2>
+
+  <p class="text-center text-gray-400 mb-8 text-sm">
+    Playlists for late night reflection, slow mornings and small domestic miracles.
+  </p>
+
+  <div class="grid gap-8 md:grid-cols-2">
+    <iframe
+      class="rounded-2xl border border-white/10"
+      src="https://open.spotify.com/embed/playlist/24V7Kz8fiT75iZ7GV782ze"
+      width="100%"
+      height="352"
+      frameborder="0"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy"
+      title="Mulberry Mix 1">
+    </iframe>
+    <iframe
+      class="rounded-2xl border border-white/10"
+      src="https://open.spotify.com/embed/playlist/0tM0unRHtx4J3McyQDvLHr"
+      width="100%"
+      height="352"
+      frameborder="0"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy"
+      title="Mulberry Mix 2">
+    </iframe>
+  </div>
+</section>
+
+<!-- New fashion segment -->
+<section id="fashion" class="max-w-5xl mx-auto px-6 pb-20">
+  <h2 class="text-3xl font-semibold mb-8 text-center">
+    Thrifted Threads
+    <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
+  </h2>
+
+  <div class="max-w-3xl mx-auto bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+    <img
+      src="media/tinopfeka_tsiki.png"
+      alt="Tinopfeka Tsiki fashion artwork"
+      class="w-full h-80 object-cover"
+    />
+    <div class="p-6 md:p-8">
+      <h3 class="text-lg font-medium mb-2">Tinopfeka Tsiki</h3>
+      <p class="text-gray-400 text-sm">
+        Struggle meets unrelenting perseverance.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="submit" class="bg-white/5 py-20">
+  <div class="max-w-xl mx-auto px-6 text-center">
+    <img
+      src="media/submit_cassette.png"
+      alt="Cassette tape metaphor for story submission"
+      class="w-32 mx-auto mb-6 opacity-80"
+    />
+    <h2 class="text-2xl font-semibold mb-4">Submit Your Story</h2>
+    <p class="text-gray-400 mb-8">
+      Got an imperfect thought, a quiet moment, a memory worth pausing on?
+    </p>
+    <a href="#"
+       class="inline-block bg-orange-500 text-black px-6 py-3 rounded-xl font-medium hover:bg-orange-400 transition">
+      Share
+    </a>
+  </div>
+</section>
+
+<footer class="border-t border-white/10 mt-20">
+  <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+    <span>© <span id="year"></span> Stories of Amazement</span>
+    <span>Made with quiet intention.</span>
+  </div>
+</footer>
+
+<div id="lightbox"
+     class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50"
+     onclick="closeLightbox()">
+  <img id="lightbox-img" class="max-w-[90vw] max-h-[90vh] rounded-xl shadow-2xl">
+</div>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  function openLightbox(src, title) {
+    const lightbox = document.getElementById("lightbox");
+    const img = document.getElementById("lightbox-img");
+    img.src = src;
+    lightbox.classList.remove("hidden");
+    lightbox.classList.add("flex");
+  }
+
+  function closeLightbox() {
+    const lightbox = document.getElementById("lightbox");
+    lightbox.classList.add("hidden");
+    lightbox.classList.remove("flex");
+  }
+
+  function toggleDhivha() {
+    const full = document.getElementById("dhivha-full");
+    const btn = document.getElementById("dhivha-toggle");
+    const isHidden = full.classList.contains("hidden");
+    if (isHidden) {
+      full.classList.remove("hidden");
+      btn.textContent = "Read less";
+    } else {
+      full.classList.add("hidden");
+      btn.textContent = "Read more";
+    }
+  }
+</script>
+
+</body>
+</html>
