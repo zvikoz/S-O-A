@@ -21,163 +21,24 @@
   <link rel="preconnect" href="https://open.spotify.com" crossorigin>
   <link rel="preconnect" href="https://i.scdn.co" crossorigin>
 
+  <!-- Preload hero for quicker first paint -->
   <link rel="preload" as="image" href="media/hero_hands.png">
 
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    /* Slow zoom on the hero background image */
-    @keyframes heroZoom {
-      0% {
-        transform: scale(1);
-      }
-      100% {
-        transform: scale(1.08);
-      }
+    /* Extra styling for playlist cards */
+    .playlist-card {
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      border-width: 1px;
+      border-style: solid;
+      border-color: rgba(255, 121, 0, 0.25);
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0);
     }
-
-    .hero-zoom {
-      animation: heroZoom 18s ease-in-out infinite alternate;
-      transform-origin: center;
-    }
-
-    /* Soft moving light overlay */
-    @keyframes heroGlow {
-      0% {
-        transform: translate3d(-10%, -10%, 0) scale(1);
-        opacity: 0.3;
-      }
-      50% {
-        transform: translate3d(10%, 5%, 0) scale(1.1);
-        opacity: 0.55;
-      }
-      100% {
-        transform: translate3d(-5%, 10%, 0) scale(1.05);
-        opacity: 0.35;
-      }
-    }
-
-    .hero-glow {
-      position: absolute;
-      inset: -20%;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(249,115,22,0.25), transparent 55%),
-        radial-gradient(circle at 80% 70%, rgba(249,115,22,0.18), transparent 60%);
-      mix-blend-mode: screen;
-      pointer-events: none;
-      animation: heroGlow 26s ease-in-out infinite alternate;
-    }
-
-    /* Floating orbs for extra motion */
-    @keyframes heroOrbFloatOne {
-      0% {
-        transform: translate3d(-10%, 10%, 0) scale(1);
-        opacity: 0.18;
-      }
-      50% {
-        transform: translate3d(5%, -5%, 0) scale(1.15);
-        opacity: 0.35;
-      }
-      100% {
-        transform: translate3d(-5%, 0%, 0) scale(1.05);
-        opacity: 0.22;
-      }
-    }
-
-    @keyframes heroOrbFloatTwo {
-      0% {
-        transform: translate3d(15%, -5%, 0) scale(1);
-        opacity: 0.16;
-      }
-      50% {
-        transform: translate3d(-10%, 10%, 0) scale(1.2);
-        opacity: 0.3;
-      }
-      100% {
-        transform: translate3d(5%, 0%, 0) scale(1.05);
-        opacity: 0.2;
-      }
-    }
-
-    .hero-orb {
-      position: absolute;
-      border-radius: 9999px;
-      filter: blur(18px);
-      pointer-events: none;
-      mix-blend-mode: screen;
-    }
-
-    .hero-orb-1 {
-      width: 240px;
-      height: 240px;
-      top: 15%;
-      left: 8%;
-      background: radial-gradient(circle, rgba(249,115,22,0.45), transparent 60%);
-      animation: heroOrbFloatOne 30s ease-in-out infinite alternate;
-    }
-
-    .hero-orb-2 {
-      width: 260px;
-      height: 260px;
-      bottom: 5%;
-      right: 12%;
-      background: radial-gradient(circle, rgba(249,115,22,0.35), transparent 60%);
-      animation: heroOrbFloatTwo 34s ease-in-out infinite alternate;
-    }
-
-    /* Subtle fade up for hero content */
-    @keyframes heroFadeUp {
-      0% {
-        opacity: 0;
-        transform: translate3d(0, 16px, 0);
-      }
-      100% {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-      }
-    }
-
-    .hero-fade-up {
-      animation: heroFadeUp 900ms ease-out forwards;
-    }
-
-    /* Scroll indicator motion */
-    @keyframes scrollDot {
-      0% {
-        transform: translateY(4px);
-        opacity: 0.1;
-      }
-      40% {
-        transform: translateY(14px);
-        opacity: 0.9;
-      }
-      100% {
-        transform: translateY(18px);
-        opacity: 0;
-      }
-    }
-
-    .scroll-dot {
-      animation: scrollDot 1500ms ease-out infinite;
-      transform-origin: center;
-    }
-
-    @media (max-width: 640px) {
-      .hero-zoom {
-        animation-duration: 26s;
-        transform-origin: center;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .hero-zoom,
-      .hero-glow,
-      .hero-fade-up,
-      .hero-orb-1,
-      .hero-orb-2,
-      .scroll-dot {
-        animation: none !important;
-      }
+    .playlist-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.65);
+      border-color: rgba(255, 121, 0, 0.8);
     }
   </style>
 </head>
@@ -185,342 +46,243 @@
 <body class="bg-black text-gray-200 font-sans selection:bg-orange-500 selection:text-black">
 
 <header class="sticky top-0 z-50 bg-black/90 backdrop-blur border-b border-white/10">
-  <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
-    <div class="text-lg md:text-2xl font-semibold tracking-wide text-orange-500">
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+    <div class="text-2xl font-semibold tracking-wide text-orange-500">
       Stories of Amazement
     </div>
-
-    <!-- Desktop nav -->
-    <div class="hidden md:flex items-center gap-6">
-      <nav class="flex gap-6 text-sm text-gray-300">
-        <a href="#top" class="hover:text-white">Home</a>
-        <a href="#submit" class="hover:text-white">Submit</a>
-        <a href="#stories" class="hover:text-white">About</a>
-        <a href="#gallery" class="hover:text-white">Archive</a>
-      </nav>
-      <input
-        type="search"
-        placeholder="Search stories..."
-        class="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm placeholder-gray-500 focus:outline-none focus:border-orange-500"
-      />
-    </div>
-
-    <!-- Mobile menu button -->
-    <button
-      class="md:hidden inline-flex items-center justify-center rounded-lg border border-white/10 px-2.5 py-1.5 text-xs text-gray-300"
-      type="button"
-      onclick="toggleMobileNav()"
-      aria-label="Toggle navigation"
-    >
-      Menu
-    </button>
-  </div>
-
-  <!-- Mobile nav panel -->
-  <div id="mobile-nav" class="md:hidden hidden border-t border-white/10 bg-black/95">
-    <div class="px-4 py-3 space-y-3">
-      <input
-        type="search"
-        placeholder="Search stories..."
-        class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm placeholder-gray-500 focus:outline-none focus:border-orange-500"
-      />
-      <nav class="flex flex-col gap-2 text-sm text-gray-300">
-        <a href="#top" class="py-1 hover:text-white" onclick="toggleMobileNav()">Home</a>
-        <a href="#submit" class="py-1 hover:text-white" onclick="toggleMobileNav()">Submit</a>
-        <a href="#stories" class="py-1 hover:text-white" onclick="toggleMobileNav()">About</a>
-        <a href="#gallery" class="py-1 hover:text-white" onclick="toggleMobileNav()">Archive</a>
-      </nav>
-    </div>
+    <nav class="hidden md:flex gap-6 text-sm text-gray-300">
+      <a href="#hero" class="hover:text-white">Home</a>
+      <a href="#submit" class="hover:text-white">Submit</a>
+      <a href="#stories" class="hover:text-white">About</a>
+      <a href="#archive" class="hover:text-white">Archive</a>
+    </nav>
+    <input
+      type="search"
+      placeholder="Search stories..."
+      class="hidden md:block bg-white/5 border border-white/10 rounded-lg px-4 py-1.5 text-sm placeholder-gray-500 focus:outline-none focus:border-orange-500"
+    />
   </div>
 </header>
 
-<a id="top"></a>
-
-<section class="relative min-h-[75vh] md:min-h-[85vh] flex items-center justify-center overflow-hidden">
+<!-- Hero -->
+<section id="hero" class="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
   <img
     src="media/hero_hands.png"
     alt="Two hands reaching towards each other in warm light"
-    class="absolute inset-0 w-full h-full object-cover opacity-40 hero-zoom"
+    class="hero-bg absolute inset-0 w-full h-full object-cover opacity-40 scale-[1.02]"
   />
-
-  <!-- Extra motion orbs -->
-  <div class="pointer-events-none absolute inset-0 z-0">
-    <div class="hero-orb hero-orb-1"></div>
-    <div class="hero-orb hero-orb-2"></div>
-  </div>
-
-  <!-- Soft animated glow overlay -->
-  <div class="hero-glow"></div>
-
-  <div class="relative z-10 text-center max-w-xl md:max-w-2xl px-4 md:px-6 hero-fade-up">
-    <h1 class="text-3xl sm:text-4xl md:text-6xl font-semibold tracking-tight mb-4 md:mb-6">
-      Cook. Create. Connect.
+  <div class="relative z-10 text-center max-w-2xl px-6">
+    <h1 id="heroTitle" class="text-4xl md:text-6xl font-semibold tracking-tight mb-6">
+      <span data-typed="Cook. Create. Connect."></span>
     </h1>
-    <p class="text-base sm:text-lg text-gray-300 mb-6 md:mb-8">
+    <p class="text-lg text-gray-300 mb-8">
       Small moments of wonder. Shared without hurry.
     </p>
-    <a
-      href="#stories"
-      class="inline-block bg-orange-500 text-black px-6 py-3 rounded-xl font-medium hover:bg-orange-400 transition"
-    >
+    <a href="#gallery" class="inline-block bg-orange-500 text-black px-6 py-3 rounded-xl font-medium hover:bg-orange-400 transition">
       Enter
     </a>
   </div>
-
-  <!-- Scroll indicator -->
-  <div class="absolute bottom-8 inset-x-0 flex justify-center z-10">
-    <div class="flex flex-col items-center text-[0.65rem] tracking-wide text-gray-400 uppercase">
-      <span class="mb-1">Scroll</span>
-      <div class="w-6 h-10 rounded-full border border-white/25 flex items-start justify-center overflow-hidden">
-        <span class="scroll-dot w-1 h-3 bg-orange-500 rounded-full mt-1"></span>
-      </div>
-    </div>
-  </div>
 </section>
 
-<section id="stories" class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-  <h2 class="text-3xl font-semibold mb-8 text-center">
-    Paivepo
-    <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
-  </h2>
-
-  <article class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 mb-10">
-    <h3 class="text-xl md:text-2xl font-semibold mb-2">
-      From Dhivha Dollar to Cadence Chitsa
-    </h3>
-    <p class="text-sm text-gray-400 mb-4">
-      A Story of Amazement by ZZ · Story · Published today
-    </p>
-    <p class="text-sm text-gray-200 mb-4">
-      Once, we trusted men in overcoats and chaos, bus conductors like Dhivha Dollar whose name was both a joke and hope. Today the paper is gone, but the faith remains.
-    </p>
-    <button
-      type="button"
-      id="dhivha-toggle"
-      class="text-sm font-medium text-orange-400 hover:text-orange-300 underline mb-4"
-      onclick="toggleDhivha()"
-    >
-      Read more
-    </button>
-    <div id="dhivha-full" class="space-y-4 text-sm text-gray-200 leading-relaxed hidden">
-      <p><strong>Then: Dhivha's Road</strong><br>
-        Once, we trusted men in overcoats and chaos - bus conductors like Dhivha Dollar, whose name was both a joke and a hope. You would slip your child's school fees into an envelope, fold your prayers into it, and hand it over. The rest was faith. Today, the paper is gone. But the faith remains.
-      </p>
-      <p><strong>A Mother's Midnight Plea</strong><br>
-        Predawn. Harare. Silence, then the sharp bark of a dog. A phone buzzes. A mother stirs. “ZWG 4,050 needed before 7am.” Her son's university registration hangs on that sum. A first-generation dream, one deadline away from slipping. In Esigodhini, a cousin empties her OneMoney. In Seke, ambuya's balance moves instantly. In Mkoba, an aunt at her tuckshop hesitates, then sends what she can, picturing his graduation. By sunrise, the bank message arrives. ZWG 4,050 received. The mother exhales, phone pressed to her cheek. A digital prayer answered.
-      </p>
-      <p><strong>Rise: The Market That Never Sleeps</strong><br>
-        As the sun climbs over Mbare Musika, the market hums. Tomatoes gleam. Voices rise. Phones buzz. At Mai Two's stall, money moves in silence. Customers pay through apps, InnBucks, USSD. No small talk, no hassle. Her balance grows with each tomato gone. By sundown, she has enough for her toddler's favourite, maJiggies. She walks home past Rufaro Stadium with nothing in her handbag but peace of mind. No fear. No bundles of cash. Just numbers and trust.
-      </p>
-      <p><strong>Hope: A Hospital Ward Glows</strong><br>
-        Night. Chitungwiza Hospital. Betty's thumb hovers over the family group: “Mhamha's surgery prep - $50 short.” In Warren Park, a brother half-wakes, sends money via Blue247. In Sakubva, an aunt chips in from her chicken project. Seconds later, Betty texts: “Zvaita. Thank you, vanhuVashe.” She slumps against the cold tile, warmed by the buzz of connection. Not just the network. The people.
-      </p>
-      <p><strong>Grief: Gokwe's Final Gathering</strong><br>
-        The next day, in Gokwe, a funeral is planned. The WhatsApp group flares: “US$500 needed for burial.” From across the nation, money trickles in. Transfers. Each amount small. Together, enough. By noon, the coffin is lowered with dignity. Not because people had much. But because they shared what they had. No one says it aloud. But they all know this is not just money. It is a promise. <em>We show up for each other.</em>
-      </p>
-      <p><strong>The Thread That Holds Us</strong><br>
-        We used to trust the road. Now we trust the invisible. Where once Dhivha Dollar ran with notes tucked in socks, now ZIPIT sends money from farm to flat, stall to surgery, in seconds. It is not flashy. It is not loud. It is survival turned seamless, a revolution disguised as routine.
-      </p>
-      <p><strong>This Is How We Rise</strong><br>
-        Every transaction is a leap of faith. Every transfer is more than money. It is sacrifice. It is hope. It is a whispered vow: <strong>we are in this together.</strong> We have always made a plan to survive. Now, through financial flexibility, we thrive.
-      </p>
-      <p><strong>Meet the Connectors</strong><br>
-        Behind every transfer, there is a story. And behind every story, someone like David Chitsa. David has worked in Zimswitch customer service for decades. He has answered late-night calls, solved frozen transfers, and calmed frantic voices. He does not just solve problems. He restores connection. People do not remember the app. They remember the person who helped them hold the line.
-      </p>
-    </div>
-  </article>
-
-  <article class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8">
-    <h3 class="text-xl md:text-2xl font-semibold mb-2">
-      Learner-ed Tembo
-    </h3>
-    <p class="text-sm text-gray-400 mb-4">
-      Chronicles of growth and discovery · Story · Pending
-    </p>
-    <p class="text-sm text-gray-200">
-      A quiet archive of experiments, lessons and gentle failures. This space is reserved for the unfolding notes of Learner-ed Tembo, once they are ready to be shared.
-    </p>
-  </article>
-</section>
-
-<section id="gallery" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+<!-- Picasso's Playground -->
+<section id="gallery" class="max-w-6xl mx-auto px-6 py-20">
   <h2 class="text-3xl font-semibold mb-12 text-center">
     Picasso's Playground
     <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
   </h2>
 
   <div class="grid md:grid-cols-2 gap-12">
-    <div
-      class="group bg-white/0 rounded-2xl p-1 transform transition-transform duration-500 hover:-translate-y-2 cursor-pointer"
-      onclick="openLightbox('media/shoreline_silence.png','Vivid Views')"
-      role="button"
-    >
+
+    <div>
       <img
         src="media/shoreline_silence.png"
         alt="Calm shoreline at dawn reflecting pastel sky"
-        class="rounded-xl mb-4 w-full h-64 object-cover"
-        loading="lazy"
+        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer"
+        onclick="openLightbox('media/shoreline_silence.png','Vivid Views')"
       />
       <h3 class="text-lg font-medium mb-1">Vivid Views</h3>
       <p class="text-gray-400 text-sm">Presence, not performance.</p>
     </div>
 
-    <div
-      class="group bg-white/0 rounded-2xl p-1 transform transition-transform duration-500 hover:-translate-y-2 cursor-pointer"
-      onclick="openLightbox('media/open_horizon.png','Love and Life')"
-      role="button"
-    >
+    <div>
       <img
         src="media/open_horizon.png"
         alt="A wide seascape with an open sky and calm sea"
-        class="rounded-xl mb-4 w-full h-64 object-cover"
-        loading="lazy"
+        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer"
+        onclick="openLightbox('media/open_horizon.png','Love and Life')"
       />
       <h3 class="text-lg font-medium mb-1">Love and Life</h3>
       <p class="text-gray-400 text-sm">Space to breathe inside the moment.</p>
     </div>
 
-    <div
-      class="group bg-white/0 rounded-2xl p-1 transform transition-transform duration-500 hover:-translate-y-2 cursor-pointer"
-      onclick="openLightbox('media/candle_circle.png','Ritual')"
-      role="button"
-    >
+    <div>
       <img
         src="media/candle_circle.png"
         alt="A warm candle circle in darkness"
-        class="rounded-xl mb-4 w-full h-64 object-cover"
-        loading="lazy"
+        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer"
+        onclick="openLightbox('media/candle_circle.png','Ritual')"
       />
       <h3 class="text-lg font-medium mb-1">Ritual</h3>
       <p class="text-gray-400 text-sm">Light holding the dark.</p>
     </div>
 
-    <div
-      class="group bg-white/0 rounded-2xl p-1 transform transition-transform duration-500 hover:-translate-y-2 cursor-pointer"
-      onclick="openLightbox('media/city_crosswalk.png','Passing Through')"
-      role="button"
-    >
+    <div>
       <img
         src="media/city_crosswalk.png"
         alt="People crossing with an orange umbrella at night"
-        class="rounded-xl mb-4 w-full h-64 object-cover"
-        loading="lazy"
+        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer"
+        onclick="openLightbox('media/city_crosswalk.png','Passing Through')"
       />
       <h3 class="text-lg font-medium mb-1">Passing Through</h3>
       <p class="text-gray-400 text-sm">We cross paths more than we realise.</p>
     </div>
+
   </div>
 </section>
 
-<section id="music" class="max-w-5xl mx-auto px-4 sm:px-6 pb-16 sm:pb-20">
-  <h2 class="text-3xl font-semibold mb-8 text-center">
+<!-- Stories -->
+<section id="stories" class="max-w-6xl mx-auto px-6 py-16">
+  <h2 class="text-3xl font-semibold mb-10 text-center">
+    Stories
+    <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
+  </h2>
+
+  <div class="space-y-8">
+
+    <article class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8">
+      <h3 class="text-xl md:text-2xl font-semibold mb-2">
+        From Dhivha Dollar to Cadence Chitsa
+      </h3>
+      <p class="text-sm text-gray-400 mb-2">
+        A Story of Amazement by ZZ · Story · Published today
+      </p>
+      <p class="text-sm text-gray-300 mb-4">
+        Once, we trusted men in overcoats and chaos, bus conductors like Dhivha Dollar whose name was both a joke and a hope. Today the paper is gone, but the faith remains.
+      </p>
+      <a href="#" class="text-orange-400 text-sm font-medium hover:text-orange-300">
+        Read more
+      </a>
+    </article>
+
+    <article class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8">
+      <h3 class="text-xl md:text-2xl font-semibold mb-2">
+        Learner-ed Tembo
+      </h3>
+      <p class="text-sm text-gray-400 mb-2">
+        Chronicles of growth and discovery · Story · Pending
+      </p>
+      <p class="text-sm text-gray-300 mb-4">
+        A quiet archive of experiments, lessons and gentle failures. This space is reserved for the unfolding notes of Learner-ed Tembo, once they are ready to be shared.
+      </p>
+      <span class="text-gray-500 text-xs">
+        Coming soon
+      </span>
+    </article>
+
+  </div>
+</section>
+
+<!-- Mulberry Music -->
+<section class="max-w-6xl mx-auto px-6 py-16">
+  <h2 class="text-3xl font-semibold mb-3 text-center">
     Mulberry Music
     <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
   </h2>
-
-  <p class="text-center text-gray-400 mb-8 text-sm">
+  <p class="text-center text-gray-400 mb-10">
     Playlists for late night reflection, slow mornings and small domestic miracles.
   </p>
 
-  <div class="grid gap-8 md:grid-cols-2">
-    <iframe
-      class="rounded-2xl border border-white/10 transform transition-transform duration-500 hover:scale-105"
-      src="https://open.spotify.com/embed/playlist/24V7Kz8fiT75iZ7GV782ze"
-      width="100%"
-      height="352"
-      frameborder="0"
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy"
-      title="Mulberry Mix 1">
-    </iframe>
-
-    <iframe
-      class="hidden sm:block rounded-2xl border border-white/10 transform transition-transform duration-500 hover:scale-105"
-      src="https://open.spotify.com/embed/playlist/0tM0unRHtx4J3McyQDvLHr"
-      width="100%"
-      height="352"
-      frameborder="0"
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy"
-      title="Mulberry Mix 2">
-    </iframe>
-  </div>
-
-  <p class="mt-4 text-center text-xs text-gray-500 sm:hidden">
-    Mulberry Mix 2 is available on the full site.
-  </p>
-</section>
-
-<section id="fashion" class="max-w-5xl mx-auto px-4 sm:px-6 pb-16 sm:pb-20">
-  <h2 class="text-3xl font-semibold mb-8 text-center">
-    Thrifted Threads
-    <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
-  </h2>
-
-  <div class="max-w-3xl mx-auto bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
-    <img
-      src="media/tinopfeka_tsiki.png"
-      alt="Tinopfeka Tsiki fashion artwork"
-      class="w-full h-80 object-cover"
-      loading="lazy"
-    />
-    <div class="p-6 md:p-8">
-      <h3 class="text-lg font-medium mb-2">Tinopfeka Tsiki</h3>
-      <p class="text-gray-400 text-sm">
-        Struggle meets unrelenting perseverance.
-      </p>
+  <div class="grid gap-10 md:grid-cols-2">
+    <div class="playlist-card rounded-2xl bg-black/40 overflow-hidden">
+      <iframe
+        src="https://open.spotify.com/embed/playlist/24V7Kz8fiT75iZ7GV782ze"
+        width="100%" height="380" frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy" class="w-full">
+      </iframe>
+    </div>
+    <div class="playlist-card rounded-2xl bg-black/40 overflow-hidden">
+      <iframe
+        src="https://open.spotify.com/embed/playlist/0tM0unRHtx4J3McyQDvLHr"
+        width="100%" height="380" frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy" class="w-full">
+      </iframe>
     </div>
   </div>
 </section>
 
-<section id="submit" class="bg-white/5 py-16 sm:py-20">
-  <div class="max-w-xl mx-auto px-4 sm:px-6 text-center">
+<!-- Thrifted Threads (fashion) -->
+<section id="archive" class="bg-black py-16">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-3xl font-semibold mb-10 text-center">
+      Thrifted Threads
+      <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
+    </h2>
+
+    <article class="max-w-4xl mx-auto bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+      <img
+        src="media/tinopfeka_tsiki.png"
+        alt="Tinopfeka Tsiki fashion piece"
+        class="w-full h-[360px] object-cover"
+      />
+      <div class="px-8 py-6">
+        <h3 class="text-lg font-semibold mb-1">Tinopfeka Tsiki</h3>
+        <p class="text-gray-400 text-sm">
+          Struggle meets unrelenting perseverance.
+        </p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- Submit your story -->
+<section id="submit" class="bg-white/5 py-20">
+  <div class="max-w-xl mx-auto px-6 text-center">
+
     <img
       src="media/submit_cassette.png"
       alt="Cassette tape metaphor for story submission"
       class="w-32 mx-auto mb-6 opacity-80"
-      loading="lazy"
     />
+
     <h2 class="text-2xl font-semibold mb-4">Submit Your Story</h2>
     <p class="text-gray-400 mb-8">
       Got an imperfect thought, a quiet moment, a memory worth pausing on?
     </p>
-    <a
-      href="#"
-      class="inline-block bg-orange-500 text-black px-6 py-3 rounded-xl font-medium hover:bg-orange-400 transition"
-    >
+
+    <a href="#"
+       class="inline-block bg-orange-500 text-black px-6 py-3 rounded-xl font-medium hover:bg-orange-400 transition">
       Share
     </a>
+
   </div>
 </section>
 
 <footer class="border-t border-white/10 mt-20">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+  <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
     <span>© <span id="year"></span> Stories of Amazement</span>
     <span>Made with quiet intention.</span>
   </div>
 </footer>
 
-<div
-  id="lightbox"
-  class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50"
-  onclick="closeLightbox()"
->
+<!-- Lightbox -->
+<div id="lightbox"
+     class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50"
+     onclick="closeLightbox()">
   <img id="lightbox-img" class="max-w-[90vw] max-h-[90vh] rounded-xl shadow-2xl">
 </div>
 
 <script>
+  // Footer year
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  function toggleMobileNav() {
-    const nav = document.getElementById("mobile-nav");
-    nav.classList.toggle("hidden");
-  }
-
+  // Lightbox
   function openLightbox(src, title) {
     const lightbox = document.getElementById("lightbox");
     const img = document.getElementById("lightbox-img");
     img.src = src;
+    img.alt = title || "";
     lightbox.classList.remove("hidden");
     lightbox.classList.add("flex");
   }
@@ -531,18 +293,53 @@
     lightbox.classList.remove("flex");
   }
 
-  function toggleDhivha() {
-    const full = document.getElementById("dhivha-full");
-    const btn = document.getElementById("dhivha-toggle");
-    const isHidden = full.classList.contains("hidden");
-    if (isHidden) {
-      full.classList.remove("hidden");
-      btn.textContent = "Read less";
-    } else {
-      full.classList.add("hidden");
-      btn.textContent = "Read more";
+  // Typewriter effect for hero title
+  function initTypewriter() {
+    const span = document.querySelector('#heroTitle span[data-typed]');
+    if (!span) return;
+
+    const fullText = span.getAttribute('data-typed');
+    span.textContent = '';
+    let index = 0;
+
+    function typeNext() {
+      if (index <= fullText.length) {
+        span.textContent = fullText.slice(0, index);
+        index += 1;
+        const delay = fullText[index - 1] === '.' ? 400 : 90;
+        setTimeout(typeNext, delay);
+      }
     }
+    typeNext();
   }
+
+  // Soft parallax on hero background image
+  function initParallax() {
+    const heroSection = document.getElementById('hero');
+    if (!heroSection) return;
+
+    const img = heroSection.querySelector('.hero-bg');
+    if (!img) return;
+
+    heroSection.addEventListener('mousemove', function (e) {
+      const rect = heroSection.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      const translateX = x * 12;
+      const translateY = y * 8;
+      img.style.transform = 'scale(1.05) translate(' + translateX + 'px,' + translateY + 'px)';
+    });
+
+    heroSection.addEventListener('mouseleave', function () {
+      img.style.transform = 'scale(1.02) translate(0,0)';
+    });
+  }
+
+  // Run interactions once DOM is ready
+  window.addEventListener('DOMContentLoaded', function () {
+    initTypewriter();
+    initParallax();
+  });
 </script>
 
 </body>
