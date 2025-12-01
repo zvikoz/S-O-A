@@ -27,74 +27,191 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    /* Extra styling for playlist cards */
+    :root{
+      --accent: #ff7900;
+      --bg: #000;
+      --text-weak: #9ca3af;
+      --ease-quick: cubic-bezier(.2,.9,.3,1);
+      --dur-short: 160ms;
+      --dur-med: 280ms;
+      --card-shadow: 0 22px 45px rgba(0,0,0,.65);
+    }
+
+    /* Motion tokens & accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+    }
+
+    /* Basic utilities */
+    .btn {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:0.5rem;
+      background:var(--accent);
+      color:#000;
+      padding:.6rem 1rem;
+      border-radius:10px;
+      font-weight:600;
+      transition: transform var(--dur-short) var(--ease-quick), box-shadow var(--dur-short) var(--ease-quick), background var(--dur-short) var(--ease-quick);
+      will-change: transform;
+      text-decoration:none;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+    }
+    .btn:hover { transform: translateY(-3px) scale(1.008); }
+    .btn:active { transform: translateY(0) scale(.998); }
+    .btn:focus { outline: 3px solid rgba(255,121,0,0.18); outline-offset: 4px; }
+
+    /* Header / Nav */
+    header { -webkit-tap-highlight-color: transparent; }
+    .nav-link { color: #e5e7eb; transition: color var(--dur-short) var(--ease-quick), transform var(--dur-short) var(--ease-quick); }
+    .nav-link:hover, .nav-link:focus { color: #fff; transform: translateY(-2px); }
+
+    /* Mobile nav */
+    #mobileNav {
+      overflow: hidden;
+      transition: max-height var(--dur-med) var(--ease-quick), opacity var(--dur-med) var(--ease-quick);
+      max-height: 0;
+      opacity: 0;
+    }
+    #mobileNav.open { max-height: 420px; opacity: 1; }
+
+    /* Hero */
+    .hero-bg {
+      transition: transform 420ms var(--ease-quick), opacity 420ms var(--ease-quick);
+      will-change: transform, opacity;
+    }
+    #heroTitle { line-height: 1.02; }
+    .hero-inner { transform-origin: center; transition: transform 320ms var(--ease-quick); }
+
+    /* Reveal utilities (scroll) */
+    .reveal { opacity: 0; transform: translateY(12px); transition: opacity .5s var(--ease-quick), transform .5s var(--ease-quick); will-change: transform, opacity; }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    .fade-in { opacity: 0; transform: translateY(6px); transition: opacity .45s var(--ease-quick), transform .45s var(--ease-quick); }
+    .fade-in.show { opacity: 1; transform: translateY(0); }
+
+    /* Playlist card extras */
     .playlist-card {
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      transition: transform 0.25s var(--ease-quick), box-shadow 0.25s var(--ease-quick), border-color 0.25s var(--ease-quick);
       border-width: 1px;
       border-style: solid;
-      border-color: rgba(255, 121, 0, 0.25);
+      border-color: rgba(255, 121, 0, 0.15);
       box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.35));
     }
-    .playlist-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.65);
-      border-color: rgba(255, 121, 0, 0.8);
+    .playlist-card:hover { transform: translateY(-6px); box-shadow: var(--card-shadow); border-color: rgba(255, 121, 0, 0.8); }
+
+    /* iframe skeleton */
+    .iframe-skeleton {
+      position: absolute;
+      inset: 0;
+      display: block;
+      background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      background-size: 200% 100%;
+      animation: shimmer 1.1s linear infinite;
+      z-index: 5;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Blur-up images */
+    .blur-up { filter: blur(14px) scale(1.02); transition: filter .6s var(--ease-quick), transform .6s var(--ease-quick), opacity .6s var(--ease-quick); will-change: filter, opacity, transform; }
+    .img-loaded { filter: blur(0) scale(1); }
+
+    /* Lightbox */
+    #lightbox { opacity: 0; transition: opacity 240ms var(--ease-quick); }
+    #lightbox.open { opacity: 1; }
+
+    /* Focus visible (for keyboard) */
+    :focus-visible { outline: 3px solid rgba(255,121,0,0.18); outline-offset: 4px; }
+
+    /* Small screens adjustments */
+    @media (max-width: 767px) {
+      .hero-inner { padding: 0 2rem; }
+      .hero-bg { opacity: .45; }
     }
   </style>
 </head>
 
 <body class="bg-black text-gray-200 font-sans selection:bg-orange-500 selection:text-black">
-
 <header class="sticky top-0 z-50 bg-black/90 backdrop-blur border-b border-white/10">
   <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-    <div class="text-2xl font-semibold tracking-wide text-orange-500">
+    <div class="text-lg sm:text-2xl font-semibold tracking-wide text-orange-500">
       Stories of Amazement
     </div>
-    <nav class="hidden md:flex gap-6 text-sm text-gray-300">
-      <a href="#hero" class="hover:text-white">Home</a>
-      <a href="#submit" class="hover:text-white">Submit</a>
-      <a href="#stories" class="hover:text-white">About</a>
-      <a href="#archive" class="hover:text-white">Archive</a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden md:flex gap-6 text-sm text-gray-300 items-center">
+      <a href="#hero" class="nav-link">Home</a>
+      <a href="#submit" class="nav-link">Submit</a>
+      <a href="#stories" class="nav-link">About</a>
+      <a href="#archive" class="nav-link">Archive</a>
+      <input
+        type="search"
+        placeholder="Search stories..."
+        class="hidden lg:block bg-white/5 border border-white/10 rounded-lg px-4 py-1.5 text-sm placeholder-gray-500 focus:outline-none focus:border-orange-500 ml-4"
+        aria-label="Search stories"
+      />
     </nav>
-    <input
-      type="search"
-      placeholder="Search stories..."
-      class="hidden md:block bg-white/5 border border-white/10 rounded-lg px-4 py-1.5 text-sm placeholder-gray-500 focus:outline-none focus:border-orange-500"
-    />
+
+    <!-- Mobile controls -->
+    <div class="md:hidden flex items-center gap-3">
+      <button id="mobileMenuBtn" aria-expanded="false" aria-controls="mobileNav" class="p-2 rounded-md text-gray-200 hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-300" aria-label="Open menu">
+        <!-- simple hamburger -->
+        <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="20" height="2" rx="1" fill="currentColor"></rect>
+          <rect y="6" width="20" height="2" rx="1" fill="currentColor"></rect>
+          <rect y="12" width="20" height="2" rx="1" fill="currentColor"></rect>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile nav panel -->
+  <div id="mobileNav" class="px-6 pb-4 md:hidden bg-black/95 border-t border-white/5">
+    <div class="flex flex-col gap-3 text-sm">
+      <a href="#hero" class="nav-link block py-2">Home</a>
+      <a href="#submit" class="nav-link block py-2">Submit</a>
+      <a href="#stories" class="nav-link block py-2">About</a>
+      <a href="#archive" class="nav-link block py-2">Archive</a>
+    </div>
   </div>
 </header>
 
 <!-- Hero -->
-<section id="hero" class="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+<section id="hero" class="relative min-h-[75vh] md:min-h-[85vh] flex items-center justify-center overflow-hidden">
   <img
     src="media/hero_hands.png"
     alt="Two hands reaching towards each other in warm light"
-    class="hero-bg absolute inset-0 w-full h-full object-cover opacity-40 scale-[1.02]"
+    class="hero-bg absolute inset-0 w-full h-full object-cover opacity-40 scale-[1.02] will-change-transform"
+    aria-hidden="true"
   />
-  <div class="relative z-10 text-center max-w-2xl px-6">
-    <h1 id="heroTitle" class="text-4xl md:text-6xl font-semibold tracking-tight mb-6">
-      <span data-typed="Cook. Create. Connect."></span>
+  <div class="relative z-10 text-center max-w-2xl px-6 hero-inner">
+    <h1 id="heroTitle" class="text-3xl sm:text-4xl md:text-6xl font-semibold tracking-tight mb-4">
+      <span data-typed="Cook. Create. Connect." aria-live="polite"></span>
     </h1>
-    <p class="text-lg text-gray-300 mb-8">
+    <p class="text-base sm:text-lg text-gray-300 mb-6">
       Small moments of wonder. Shared without hurry.
     </p>
-    <a href="#stories" class="inline-block bg-orange-500 text-black px-6 py-3 rounded-xl font-medium hover:bg-orange-400 transition">
-      Enter
-    </a>
+    <a href="#stories" class="btn" id="enterBtn">Enter</a>
   </div>
 </section>
 
 <!-- Paivepo (stories first) -->
-<section id="stories" class="max-w-6xl mx-auto px-6 py-16">
-  <h2 class="text-3xl font-semibold mb-10 text-center">
+<section id="stories" class="max-w-6xl mx-auto px-6 py-12 md:py-16">
+  <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center">
     Paivepo
     <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
   </h2>
 
-  <div class="space-y-8">
-
-    <article class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8">
-      <h3 class="text-xl md:text-2xl font-semibold mb-2">
+  <div class="space-y-6">
+    <article class="bg-white/5 border border-white/10 rounded-2xl p-5 md:p-8 reveal" tabindex="0">
+      <h3 class="text-lg md:text-xl font-semibold mb-2">
         From Dhivha Dollar to Cadence Chitsa
       </h3>
       <p class="text-sm text-gray-400 mb-2">
@@ -103,13 +220,11 @@
       <p class="text-sm text-gray-300 mb-4">
         Once, we trusted men in overcoats and chaos, bus conductors like Dhivha Dollar whose name was both a joke and hope. Today the paper is gone, but the faith remains.
       </p>
-      <a href="#" class="text-orange-400 text-sm font-medium hover:text-orange-300">
-        Read more
-      </a>
+      <a href="#" class="text-orange-400 text-sm font-medium hover:text-orange-300 focus-visible:underline">Read more</a>
     </article>
 
-    <article class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8">
-      <h3 class="text-xl md:text-2xl font-semibold mb-2">
+    <article class="bg-white/5 border border-white/10 rounded-2xl p-5 md:p-8 reveal" tabindex="0">
+      <h3 class="text-lg md:text-xl font-semibold mb-2">
         Learner-ed Tembo
       </h3>
       <p class="text-sm text-gray-400 mb-2">
@@ -127,106 +242,110 @@
 </section>
 
 <!-- Picasso's Playground (now second section) -->
-<section id="gallery" class="max-w-6xl mx-auto px-6 py-20">
-  <h2 class="text-3xl font-semibold mb-12 text-center">
+<section id="gallery" class="max-w-6xl mx-auto px-6 py-12 md:py-20">
+  <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center">
     Picasso's Playground
     <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
   </h2>
 
-  <div class="grid md:grid-cols-2 gap-12">
-
-    <div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="reveal">
       <img
         src="media/shoreline_silence.png"
         alt="Calm shoreline at dawn reflecting pastel sky"
-        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer"
+        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer blur-up"
         onclick="openLightbox('media/shoreline_silence.png','Vivid Views')"
+        loading="lazy"
       />
       <h3 class="text-lg font-medium mb-1">Vivid Views</h3>
       <p class="text-gray-400 text-sm">Presence, not performance.</p>
     </div>
 
-    <div>
+    <div class="reveal">
       <img
         src="media/open_horizon.png"
         alt="A wide seascape with an open sky and calm sea"
-        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer"
+        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer blur-up"
         onclick="openLightbox('media/open_horizon.png','Love and Life')"
+        loading="lazy"
       />
       <h3 class="text-lg font-medium mb-1">Love and Life</h3>
       <p class="text-gray-400 text-sm">Space to breathe inside the moment.</p>
     </div>
 
-    <div>
+    <div class="reveal">
       <img
         src="media/candle_circle.png"
         alt="A warm candle circle in darkness"
-        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer"
+        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer blur-up"
         onclick="openLightbox('media/candle_circle.png','Ritual')"
+        loading="lazy"
       />
       <h3 class="text-lg font-medium mb-1">Ritual</h3>
       <p class="text-gray-400 text-sm">Light holding the dark.</p>
     </div>
 
-    <div>
+    <div class="reveal">
       <img
         src="media/city_crosswalk.png"
         alt="People crossing with an orange umbrella at night"
-        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer"
+        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer blur-up"
         onclick="openLightbox('media/city_crosswalk.png','Passing Through')"
+        loading="lazy"
       />
       <h3 class="text-lg font-medium mb-1">Passing Through</h3>
       <p class="text-gray-400 text-sm">We cross paths more than we realise.</p>
     </div>
-
   </div>
 </section>
 
 <!-- Mulberry Music -->
-<section class="max-w-6xl mx-auto px-6 py-16">
-  <h2 class="text-3xl font-semibold mb-3 text-center">
+<section class="max-w-6xl mx-auto px-6 py-10 md:py-16">
+  <h2 class="text-2xl md:text-3xl font-semibold mb-3 text-center">
     Mulberry Music
     <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
   </h2>
-  <p class="text-center text-gray-400 mb-10">
+  <p class="text-center text-gray-400 mb-8">
     Playlists for late night reflection, slow mornings and small domestic miracles.
   </p>
 
-  <div class="grid gap-10 md:grid-cols-2">
-    <div class="playlist-card rounded-2xl bg-black/40 overflow-hidden">
+  <div class="grid gap-6 md:grid-cols-2">
+    <div class="playlist-card rounded-2xl bg-black/40 overflow-hidden reveal" style="min-height:180px;">
+      <div class="iframe-skeleton" aria-hidden="true"></div>
       <iframe
         src="https://open.spotify.com/embed/playlist/24V7Kz8fiT75iZ7GV782ze"
         width="100%" height="380" frameborder="0"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy" class="w-full">
-      </iframe>
+        loading="lazy" class="w-full" title="Playlist: Late Night Reflection"></iframe>
     </div>
-    <div class="playlist-card rounded-2xl bg-black/40 overflow-hidden">
+
+    <div class="playlist-card rounded-2xl bg-black/40 overflow-hidden reveal" style="min-height:180px;">
+      <div class="iframe-skeleton" aria-hidden="true"></div>
       <iframe
         src="https://open.spotify.com/embed/playlist/0tM0unRHtx4J3McyQDvLHr"
         width="100%" height="380" frameborder="0"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy" class="w-full">
-      </iframe>
+        loading="lazy" class="w-full" title="Playlist: Slow Mornings"></iframe>
     </div>
   </div>
 </section>
 
 <!-- Thrifted Threads (fashion) -->
-<section id="archive" class="bg-black py-16">
+<section id="archive" class="bg-black py-12 md:py-16">
   <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-3xl font-semibold mb-10 text-center">
+    <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center">
       Thrifted Threads
       <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
     </h2>
 
-    <article class="max-w-4xl mx-auto bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+    <article class="max-w-4xl mx-auto bg-white/5 border border-white/10 rounded-2xl overflow-hidden reveal">
       <img
         src="media/tinopfeka_tsiki.png"
         alt="Tinopfeka Tsiki fashion piece"
-        class="w-full h-[360px] object-cover"
+        class="w-full h-[360px] object-cover blur-up"
+        loading="lazy"
       />
-      <div class="px-8 py-6">
+      <div class="px-6 py-5">
         <h3 class="text-lg font-semibold mb-1">Tinopfeka Tsiki</h3>
         <p class="text-gray-400 text-sm">
           Struggle meets unrelenting perseverance.
@@ -237,30 +356,28 @@
 </section>
 
 <!-- Submit your story -->
-<section id="submit" class="bg-white/5 py-20">
+<section id="submit" class="bg-white/5 py-12 md:py-20">
   <div class="max-w-xl mx-auto px-6 text-center">
 
     <img
       src="media/submit_cassette.png"
       alt="Cassette tape metaphor for story submission"
-      class="w-32 mx-auto mb-6 opacity-80"
+      class="w-28 mx-auto mb-6 opacity-80 blur-up"
+      loading="lazy"
     />
 
-    <h2 class="text-2xl font-semibold mb-4">Submit Your Story</h2>
-    <p class="text-gray-400 mb-8">
+    <h2 class="text-xl md:text-2xl font-semibold mb-4">Submit Your Story</h2>
+    <p class="text-gray-400 mb-6">
       Got an imperfect thought, a quiet moment, a memory worth pausing on?
     </p>
 
-    <a href="#"
-       class="inline-block bg-orange-500 text-black px-6 py-3 rounded-xl font-medium hover:bg-orange-400 transition">
-      Share
-    </a>
+    <a href="#" class="btn">Share</a>
 
   </div>
 </section>
 
-<footer class="border-t border-white/10 mt-20">
-  <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+<footer class="border-t border-white/10 mt-12">
+  <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
     <span>© <span id="year"></span> Stories of Amazement</span>
     <span>Made with quiet intention.</span>
   </div>
@@ -269,76 +386,233 @@
 <!-- Lightbox -->
 <div id="lightbox"
      class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50"
-     onclick="closeLightbox()">
-  <img id="lightbox-img" class="max-w-[90vw] max-h-[90vh] rounded-xl shadow-2xl">
+     onclick="closeLightbox()" role="dialog" aria-modal="true" aria-hidden="true">
+  <img id="lightbox-img" class="max-w-[90vw] max-h-[90vh] rounded-xl shadow-2xl opacity-0 transition-opacity duration-200">
 </div>
 
 <script>
+  /* Utility: safe query */
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
   // Footer year
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  // Lightbox
-  function openLightbox(src, title) {
-    const lightbox = document.getElementById("lightbox");
-    const img = document.getElementById("lightbox-img");
-    img.src = src;
-    img.alt = title || "";
-    lightbox.classList.remove("hidden");
-    lightbox.classList.add("flex");
-  }
+  // Mobile nav toggle
+  (function setupMobileNav(){
+    const btn = document.getElementById('mobileMenuBtn');
+    const panel = document.getElementById('mobileNav');
+    if (!btn || !panel) return;
+    btn.addEventListener('click', () => {
+      const open = panel.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      panel.classList.toggle('hidden', !open);
+    });
+    // close when clicking a link
+    panel.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') {
+        panel.classList.remove('open');
+        panel.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
 
-  function closeLightbox() {
-    const lightbox = document.getElementById("lightbox");
-    lightbox.classList.add("hidden");
-    lightbox.classList.remove("flex");
-  }
+  // Lightbox with fade and Escape support
+  (function lightboxInit(){
+    const lightbox = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-img');
+    function open(src, title){
+      img.style.opacity = 0;
+      img.src = src;
+      img.alt = title || '';
+      lightbox.classList.remove('hidden');
+      lightbox.classList.add('open','flex');
+      document.body.style.overflow = 'hidden';
+      lightbox.setAttribute('aria-hidden', 'false');
+      // wait for image to be paintable, then fade
+      img.onload = () => { img.classList.add('img-loaded'); img.style.opacity = 1; };
+      img.onerror = () => { img.style.opacity = 1; };
+      document.addEventListener('keydown', onKey);
+    }
+    function close(){
+      lightbox.classList.remove('open','flex');
+      lightbox.classList.add('hidden');
+      document.body.style.overflow = '';
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.removeEventListener('keydown', onKey);
+      // clear src to release memory
+      img.src = '';
+      img.classList.remove('img-loaded');
+    }
+    function onKey(e){
+      if (e.key === 'Escape') close();
+    }
+    window.openLightbox = open;
+    window.closeLightbox = close;
+  })();
 
-  // Typewriter effect for hero title
-  function initTypewriter() {
-    const span = document.querySelector('#heroTitle span[data-typed]');
+  // Typewriter - respects prefers-reduced-motion
+  (function typewriterInit(){
+    const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduce) {
+      const span = $('#heroTitle span[data-typed]');
+      if (span) span.textContent = span.getAttribute('data-typed');
+      return;
+    }
+    const span = $('#heroTitle span[data-typed]');
     if (!span) return;
-
-    const fullText = span.getAttribute('data-typed');
+    const fullText = span.getAttribute('data-typed') || '';
     span.textContent = '';
-    let index = 0;
-
-    function typeNext() {
-      if (index <= fullText.length) {
-        span.textContent = fullText.slice(0, index);
-        index += 1;
-        const delay = fullText[index - 1] === '.' ? 400 : 90;
-        setTimeout(typeNext, delay);
+    let i = 0;
+    function step(){
+      if (i <= fullText.length) {
+        span.textContent = fullText.slice(0, i);
+        const ch = fullText[i - 1];
+        const delay = ch === '.' ? 420 : 90;
+        i++;
+        setTimeout(step, delay);
       }
     }
-    typeNext();
-  }
+    step();
+  })();
 
-  // Soft parallax on hero background image
-  function initParallax() {
-    const heroSection = document.getElementById('hero');
-    if (!heroSection) return;
+  // Parallax: lightweight using rAF, disabled for touch and reduced motion
+  (function parallaxInit(){
+    const hero = document.getElementById('hero');
+    const img = hero ? hero.querySelector('.hero-bg') : null;
+    if (!hero || !img) return;
+    const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+    if (prefersReduce || isTouch) return;
 
-    const img = heroSection.querySelector('.hero-bg');
-    if (!img) return;
+    let mouseX = 0, mouseY = 0;
+    let targetX = 0, targetY = 0;
+    let ticking = false;
 
-    heroSection.addEventListener('mousemove', function (e) {
-      const rect = heroSection.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      const translateX = x * 12;
-      const translateY = y * 8;
-      img.style.transform = 'scale(1.05) translate(' + translateX + 'px,' + translateY + 'px)';
+    hero.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2; // -1..1
+      mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      requestTick();
     });
 
-    heroSection.addEventListener('mouseleave', function () {
-      img.style.transform = 'scale(1.02) translate(0,0)';
+    hero.addEventListener('mouseleave', () => {
+      mouseX = 0;
+      mouseY = 0;
+      requestTick();
     });
-  }
 
-  // Run interactions once DOM is ready
+    function requestTick(){ if (!ticking){ requestAnimationFrame(update); ticking = true; } }
+
+    function update(){
+      // subtle easing
+      targetX += (mouseX - targetX) * 0.12;
+      targetY += (mouseY - targetY) * 0.12;
+      const translateX = targetX * 8; // pixels
+      const translateY = targetY * 6;
+      const scale = 1.04 + Math.abs(targetX + targetY) * 0.006;
+      img.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+      ticking = false;
+    }
+  })();
+
+  // IntersectionObserver for reveal elements and blur-up images
+  (function revealInit(){
+    const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reveals = $$('.reveal');
+    const blurs = $$('.blur-up');
+
+    // Immediately mark first N visible elements to avoid hiding content on slow devices
+    const observerOpts = { threshold: 0.12 };
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach((entry) => {
+        const el = entry.target;
+        if (entry.isIntersecting) {
+          el.classList.add('is-visible');
+          obs.unobserve(el);
+        }
+      });
+    }, observerOpts);
+
+    if (!prefersReduce) {
+      reveals.forEach((r) => io.observe(r));
+    } else {
+      // If reduced motion, just show everything
+      reveals.forEach(r => r.classList.add('is-visible'));
+    }
+
+    // Blur-up image handling
+    blurs.forEach(img => {
+      if (img.complete && img.naturalWidth !== 0) {
+        img.classList.add('img-loaded');
+      } else {
+        img.addEventListener('load', () => img.classList.add('img-loaded'), { once: true });
+      }
+    });
+  })();
+
+  // Iframe skeleton removal when iframe loads
+  (function iframeSkeleton(){
+    const iframes = Array.from(document.querySelectorAll('iframe'));
+    iframes.forEach(frame => {
+      // Many embedded players don't fire 'load' reliably; add a time-based fallback
+      let parent = frame.closest('.playlist-card');
+      if (!parent) return;
+      const skeleton = parent.querySelector('.iframe-skeleton');
+      let cleaned = false;
+      function remove(){
+        if (cleaned) return;
+        cleaned = true;
+        if (skeleton) skeleton.remove();
+      }
+      frame.addEventListener('load', remove, { once: true });
+      // fallback: remove after 4s
+      setTimeout(remove, 4000);
+    });
+  })();
+
+  // Keyboard / focus improvements: make Enter button focusable and scroll-snap behavior
+  (function smallUX(){
+    // smooth scroll unless reduced motion
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      try { document.documentElement.style.scrollBehavior = 'smooth'; } catch(e){}
+    }
+
+    // Close mobile nav on outside click for small screens (optional)
+    document.addEventListener('click', function(e){
+      const nav = document.getElementById('mobileNav');
+      const btn = document.getElementById('mobileMenuBtn');
+      if (!nav || !btn) return;
+      if (nav.classList.contains('open')) {
+        if (!nav.contains(e.target) && !btn.contains(e.target)) {
+          nav.classList.remove('open');
+          nav.classList.add('hidden');
+          btn.setAttribute('aria-expanded','false');
+        }
+      }
+    }, { passive: true });
+  })();
+
+  // Light keyboard access: allow Enter/Space to open the first gallery image via keyboard
+  (function galleryKeyboard() {
+    const items = Array.from(document.querySelectorAll('#gallery img'));
+    items.forEach(img => {
+      img.tabIndex = 0;
+      img.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const src = img.getAttribute('src');
+          const title = img.getAttribute('alt') || '';
+          window.openLightbox(src, title);
+        }
+      });
+    });
+  })();
+
+  // Run any actions that should occur on DOM ready (some already ran inline).
   window.addEventListener('DOMContentLoaded', function () {
-    initTypewriter();
-    initParallax();
+    // Already initialised components above; keep this hook if additional on-load tasks needed.
   });
 </script>
 
