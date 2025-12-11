@@ -40,6 +40,17 @@
       * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
     }
 
+    body {
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        font-size: 14px;
+      }
+    }
+
     .btn {
       display:inline-flex;
       align-items:center;
@@ -47,8 +58,8 @@
       gap:0.5rem;
       background:var(--accent);
       color:#000;
-      padding:.6rem 1rem;
-      border-radius:10px;
+      padding:.7rem 1.15rem;
+      border-radius:12px;
       font-weight:600;
       transition: transform var(--dur-short) var(--ease-quick), box-shadow var(--dur-short) var(--ease-quick), background var(--dur-short) var(--ease-quick);
       will-change: transform;
@@ -75,7 +86,7 @@
       transition: transform 420ms var(--ease-quick), opacity 420ms var(--ease-quick);
       will-change: transform, opacity;
     }
-    #heroTitle { line-height: 1.02; }
+    #heroTitle { line-height: 1.05; word-spacing: 0.02em; }
     .hero-inner { transform-origin: center; transition: transform 320ms var(--ease-quick); }
 
     .reveal { opacity: 0; transform: translateY(12px); transition: opacity .5s var(--ease-quick), transform .5s var(--ease-quick); will-change: transform, opacity; }
@@ -95,6 +106,12 @@
       background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.35));
     }
     .playlist-card:hover { transform: translateY(-6px); box-shadow: var(--card-shadow); border-color: rgba(255, 121, 0, 0.8); }
+
+    @media (max-width: 767px) {
+      .playlist-card iframe {
+        height: 300px;
+      }
+    }
 
     .iframe-skeleton {
       position: absolute;
@@ -119,23 +136,31 @@
     :focus-visible { outline: 3px solid rgba(255,121,0,0.18); outline-offset: 4px; }
 
     @media (max-width: 767px) {
-      .hero-inner { padding: 0 2rem; }
-      .hero-bg { opacity: .45; }
+      .hero-inner { padding: 0 1.6rem; }
+      .hero-bg { opacity: .5; }
+      section { padding-left: 1.25rem; padding-right: 1.25rem; }
     }
-
-    header { transition: transform .28s cubic-bezier(.2,.9,.3,1); }
-    header.hidden-up { transform: translateY(-110%); }
-    header.revealed { transform: translateY(0); }
 
     #scrollProgress {
       position: fixed;
       left: 0;
       top: 0;
-      height: 3px;
+      height: 2px;
       background: var(--accent);
       width: 0;
       z-index: 60;
       pointer-events: none;
+    }
+
+    .full-story {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height .45s var(--ease-quick), opacity .45s var(--ease-quick);
+    }
+    .full-story.open {
+      max-height: 4000px;
+      opacity: 1;
     }
   </style>
 </head>
@@ -144,7 +169,7 @@
 <div id="scrollProgress" aria-hidden="true"></div>
 
 <header class="sticky top-0 z-50 bg-black/90 backdrop-blur border-b border-white/10">
-  <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-5 py-3">
     <div class="text-lg sm:text-2xl font-semibold tracking-wide text-orange-500">
       Stories of Amazement
     </div>
@@ -170,17 +195,17 @@
       </button>
     </div>
   </div>
-  <div id="mobileNav" class="px-6 pb-4 md:hidden bg-black/95 border-t border-white/5 hidden">
-    <div class="flex flex-col gap-3 text-sm">
-      <a href="#hero" class="nav-link block py-2">Home</a>
-      <a href="#submit" class="nav-link block py-2">Submit</a>
-      <a href="#stories" class="nav-link block py-2">About</a>
-      <a href="#archive" class="nav-link block py-2">Archive</a>
+  <div id="mobileNav" class="px-5 pb-4 md:hidden bg-black/95 border-t border-white/5 hidden">
+    <div class="flex flex-col gap-1 text-sm">
+      <a href="#hero" class="nav-link block py-3">Home</a>
+      <a href="#submit" class="nav-link block py-3">Submit</a>
+      <a href="#stories" class="nav-link block py-3">About</a>
+      <a href="#archive" class="nav-link block py-3">Archive</a>
     </div>
   </div>
 </header>
 
-<section id="hero" class="relative min-h=[75vh] md:min-h-[85vh] flex items-center justify-center overflow-hidden">
+<section id="hero" class="relative min-h-[90vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden">
   <img
     src="media/hero_hands.png"
     alt="Two hands reaching towards each other in warm light"
@@ -189,84 +214,80 @@
     data-parallax
   />
   <div class="relative z-10 text-center max-w-2xl px-6 hero-inner">
-    <h1 id="heroTitle" class="text-3xl sm:text-4xl md:text-6xl font-semibold tracking-tight mb-4">
+    <h1 id="heroTitle" class="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight mb-4">
       <span data-typed="Cook. Create. Connect." aria-live="polite"></span>
     </h1>
     <p class="text-base sm:text-lg text-gray-300 mb-6">
-      Small moments of wonder. Shared without hurry.
+      Small moments of wonder, shared without hurry.
     </p>
     <a href="#stories" class="btn" id="enterBtn">Enter</a>
   </div>
 </section>
 
-<section id="stories" class="max-w-6xl mx-auto px-6 py-12 md:py-16">
-  <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center">
+<section id="stories" class="max-w-6xl mx-auto px-0 py-9 md:py-16">
+  <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center px-5">
     Paivepo
     <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
   </h2>
-  <div class="space-y-6">
 
-    <!-- STORY 1: From Dhivha Dollar to Calm Chitsa -->
+  <div class="space-y-5 px-5">
     <article class="bg-white/5 border border-white/10 rounded-2xl p-5 md:p-8 reveal" tabindex="0">
       <h3 class="text-lg md:text-xl font-semibold mb-1">
         From Dhivha Dollar to Calm Chitsa
       </h3>
-      <p class="text-xs text-orange-400 mb-2">A Story of Connection</p>
-      <p class="text-sm text-gray-400 mb-2">
+      <p class="text-xs text-orange-400 mb-1">A Story of Connection</p>
+      <p class="text-xs text-gray-400 mb-3">
         By ZZ · Story · Published today
       </p>
 
-      <!-- teaser paragraph only -->
-      <p class="text-sm text-gray-300 mb-4">
-        Once, we trusted men in overcoats and chaos – bus conductors like Dhivha Dollar, whose name was both a joke and hope. You’d slip your child’s school fees into an envelope, fold your prayers into it, and hand it over. The rest was faith. Today, the paper is gone. But the faith remains.
+      <p class="text-sm text-gray-300 mb-3 leading-relaxed">
+        Once, we trusted men in overcoats and chaos, bus conductors like Dhivha Dollar, whose name was both a joke and hope. Today, the paper is gone. But the faith remains.
       </p>
 
-      <!-- full story revealed on click -->
-      <div class="full-story hidden text-sm text-gray-300 space-y-3 mt-2">
-        <p><strong>Then: Dhivha’s Road</strong><br>
-        Back then, you didn’t need an app or a USSD string.<br>
-        You had Dhivha Dollar, an overcoat pocket and a crowded bus window between you and your money.</p>
+      <div class="full-story text-sm text-gray-300 space-y-3 mt-1 leading-relaxed">
+        <p><strong>Then: Dhivha's Road</strong><br>
+        You would slip your child's school fees into an envelope, fold your prayers into it, and hand it over. The rest was faith. Today, the paper is gone. But the faith remains.</p>
 
-        <p><strong>A Mother’s Midnight Murmur</strong><br>
+        <p><strong>A Mother's Midnight Murmur</strong><br>
         Predawn. Harare. Silence, then a sharp bark from bhoki.<br>
-        A phone pings. A mother stirs. “Murisei? Khule varikushaya mari iya.”<br>
-        Her son’s university registration hangs on that sum. A first-generation dream, one deadline away from slipping.</p>
+        A phone pings. A mother stirs. "Murisei? Khule varikushaya mari iya."<br>
+        Her son's university registration hangs on that sum, a first generation dream, one deadline away from slipping.</p>
 
         <p>In Esigodhini, a cousin empties her OneMoney. In Seke, ambuya's balance moves instantly.<br>
-        In Mkoba, an aunt staring at her tuck-shop earnings briefly hesitates, then sends what she can, envisioning his graduation.<br>
-        By sunrise, the bank message arrives – New A/C Bal: ZWG 3,019.94.<br>
+        In Mkoba, an aunt staring at her tuck shop earnings briefly hesitates, then sends what she can, envisioning his graduation.<br>
+        By sunrise, the bank message arrives, New A/C Bal: ZWG 3,019.94.<br>
         The mother exhales, the boy smiles. A digital prayer answered.</p>
 
         <p><strong>Rise: The Market That Never Sleeps</strong><br>
         As the sun climbs over Mbare Musika, the market hums.<br>
         Tomatoes gleam. Voices rise. Phones buzz.<br>
-        At Mai Two’s stall, money moves in silence. Customers pay through apps and dial pads – InnBucks, USSD – no small talk, no hassle. Her balance grows with each tomato gone. By sundown, she has enough for her toddler’s favourite: maJiggies.</p>
+        At Mai Two's stall, money moves in silence. Customers pay through apps and dial pads, InnBucks, USSD, no small talk, no hassle. Her balance grows with each tomato gone. By sundown, she has enough for her toddler's favourite, maJiggies.</p>
 
         <p>She walks home past Rufaro Stadium with nothing in her handbag but peace of mind.<br>
         No fear. No bundles of cash. Just numbers and trust.</p>
 
         <p><strong>A Ward Glows</strong><br>
         Night. Chitungwiza Hospital.<br>
-        Betty’s thumb hovers over the family group: “Mhamha’s surgery prep – $50 yakudiwa!”<br>
-        In Waterfalls, a brother half-wakes and sends funds via Blue247.<br>
-        In Sakubva, an aunt chips in, depleting her chicken project savings. Moments later, Betty texts: “Zvaita. Thank you, vanhuVashe.”</p>
+        Betty's thumb hovers over the family group, "Mhamha's surgery prep, 50 dollars yakudiwa."<br>
+        In Waterfalls, a brother half wakes and sends funds via Blue247.<br>
+        In Sakubva, an aunt chips in, depleting her chicken project savings. Moments later, Betty texts, "Zvaita. Thank you, vanhuVashe."</p>
 
         <p>She slumps against the cold tile, warmed by the buzz. Not just of the network. The people.</p>
 
         <p><strong>Grief in Gokwe: A Final Gathering</strong><br>
-        In Gokwe, mourners congregate. WhatsApp notifications flare with the all too familiar pop-up: “Ngatibatanidze ye chema.” From across the nation, money trickles in transfers. Each amount small. Together, enough.<br>
+        In Gokwe, mourners congregate. WhatsApp notifications flare with the all too familiar pop up, "Ngatibatanidze ye chema." From across the nation, money trickles in transfers. Each amount small. Together, enough.<br>
         By noon, the coffin is lowered with dignity, surrounded by love and unspoken gratitude.<br>
         Not because people had much. But because they shared what they had.</p>
 
-        <p>It’s not said but they all know: It’s more than money.<br>
-        It’s an unbreakable whispered promise that they will always show up for each other.</p>
+        <p>It is not said but they all know, it is more than money.<br>
+        It is an unbreakable whispered promise that they will always show up for each other.</p>
 
         <p><strong>The Seamless Thread That Holds Us</strong><br>
         We used to trust the road. Now we trust the invisible.<br>
         Where once Dhivha Dollar ran with notes tucked in socks.<br>
-        Now, funds move from farm to flat, stall to surgery. In seconds.<br>
-        It’s not flashy. It’s not loud.<br>
-        It’s survival disguised as routine.</p>
+        Now, funds move from farm to flat, stall to surgery, in seconds.<br>
+        It is not flashy. It is not loud.<br>
+        It is survival disguised as routine.</p>
 
         <p><strong>This is How We Rise</strong><br>
         Each transaction is a leap of faith.<br>
@@ -276,14 +297,15 @@
         <p>And what a privilege it is to wake each day to connect lives and carry hope wherever life takes our people.</p>
 
         <p><strong>The Connector</strong><br>
-        David Chitsa, a dedicated Zimswitch customer service team member, has been connecting Zimbabweans for decades. He’s answered late-night calls, thawed frozen transfers, and calmed frantic voices. His passion for service embodies the spirit of connection that drives us as a people.<br>
-        We don't remember transactions, but we'll never forget how we felt each time Davido kept his promise.</p>
+        David Chitsa, a dedicated Zimswitch customer service team member, has been connecting Zimbabweans for decades. He has answered late night calls, thawed frozen transfers, and calmed frantic voices. His passion for service embodies the spirit of connection that drives us as a people.<br>
+        We do not remember transactions, but we never forget how we felt each time Davido kept his promise.</p>
       </div>
 
-      <a href="#" class="read-more-link text-orange-400 text-sm font-medium hover:text-orange-300 focus-visible:underline">Read more</a>
+      <a href="#" class="read-more-link text-orange-400 text-sm font-medium hover:text-orange-300 focus-visible:underline" aria-expanded="false">
+        Read more
+      </a>
     </article>
 
-    <!-- STORY 2: placeholder / coming soon -->
     <article class="bg-white/5 border border-white/10 rounded-2xl p-5 md:p-8 reveal" tabindex="0">
       <h3 class="text-lg md:text-xl font-semibold mb-2">
         Learner-ed Tembo
@@ -291,61 +313,64 @@
       <p class="text-sm text-gray-400 mb-2">
         Chronicles of growth and discovery · Story · Pending
       </p>
-      <p class="text-sm text-gray-300 mb-4">
+      <p class="text-sm text-gray-300 mb-4 leading-relaxed">
         A quiet archive of experiments, lessons and gentle failures. This space is reserved for the unfolding notes of Learner-ed Tembo, once they are ready to be shared.
       </p>
       <span class="text-gray-500 text-xs">
         Coming soon
       </span>
     </article>
-
   </div>
 </section>
 
-<section id="gallery" class="max-w-6xl mx-auto px-6 py-12 md:py-20">
-  <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center">
+<section id="gallery" class="max-w-6xl mx-auto px-0 py-9 md:py-20">
+  <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center px-5">
     Picasso's Playground
     <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
   </h2>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 px-5">
     <div class="reveal">
       <img
         src="media/shoreline_silence.png"
         alt="Calm shoreline at dawn reflecting pastel sky"
-        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer blur-up"
+        class="rounded-xl mb-4 w-full aspect-square md:h-64 md:aspect-auto object-cover cursor-pointer blur-up"
         onclick="openLightbox('media/shoreline_silence.png','Vivid Views')"
         loading="lazy"
       />
       <h3 class="text-lg font-medium mb-1">Vivid Views</h3>
       <p class="text-gray-400 text-sm">Presence, not performance.</p>
     </div>
+
     <div class="reveal">
       <img
         src="media/open_horizon.png"
         alt="A wide seascape with an open sky and calm sea"
-        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer blur-up"
+        class="rounded-xl mb-4 w-full aspect-square md:h-64 md:aspect-auto object-cover cursor-pointer blur-up"
         onclick="openLightbox('media/open_horizon.png','Love and Life')"
         loading="lazy"
       />
       <h3 class="text-lg font-medium mb-1">Love and Life</h3>
       <p class="text-gray-400 text-sm">Space to breathe inside the moment.</p>
     </div>
+
     <div class="reveal">
       <img
         src="media/candle_circle.png"
         alt="A warm candle circle in darkness"
-        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer blur-up"
+        class="rounded-xl mb-4 w-full aspect-square md:h-64 md:aspect-auto object-cover cursor-pointer blur-up"
         onclick="openLightbox('media/candle_circle.png','Ritual')"
         loading="lazy"
       />
       <h3 class="text-lg font-medium mb-1">Ritual</h3>
       <p class="text-gray-400 text-sm">Light holding the dark.</p>
     </div>
+
     <div class="reveal">
       <img
         src="media/city_crosswalk.png"
         alt="People crossing with an orange umbrella at night"
-        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer blur-up"
+        class="rounded-xl mb-4 w-full aspect-square md:h-64 md:aspect-auto object-cover cursor-pointer blur-up"
         onclick="openLightbox('media/city_crosswalk.png','Passing Through')"
         loading="lazy"
       />
@@ -355,45 +380,48 @@
   </div>
 </section>
 
-<section class="max-w-6xl mx-auto px-6 py-10 md:py-16">
-  <h2 class="text-2xl md:text-3xl font-semibold mb-3 text-center">
+<section class="max-w-6xl mx-auto px-0 py-9 md:py-16">
+  <h2 class="text-2xl md:text-3xl font-semibold mb-3 text-center px-5">
     Mulberry Music
     <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
   </h2>
-  <p class="text-center text-gray-400 mb-8">
+  <p class="text-center text-gray-400 mb-8 px-8">
     Playlists for late night reflection, slow mornings and small domestic miracles.
   </p>
-  <div class="grid gap-6 md:grid-cols-2">
+
+  <div class="grid gap-6 md:grid-cols-2 px-5">
     <div class="playlist-card rounded-2xl bg-black/40 overflow-hidden reveal" style="min-height:180px;">
       <div class="iframe-skeleton" aria-hidden="true"></div>
       <iframe
         src="https://open.spotify.com/embed/playlist/24V7Kz8fiT75iZ7GV782ze"
-        width="100%" height="380" frameborder="0"
+        width="100%" height="360" frameborder="0"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy" class="w-full" title="Playlist: Late Night Reflection"></iframe>
     </div>
+
     <div class="playlist-card rounded-2xl bg-black/40 overflow-hidden reveal" style="min-height:180px;">
       <div class="iframe-skeleton" aria-hidden="true"></div>
       <iframe
         src="https://open.spotify.com/embed/playlist/0tM0unRHtx4J3McyQDvLHr"
-        width="100%" height="380" frameborder="0"
+        width="100%" height="360" frameborder="0"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy" class="w-full" title="Playlist: Slow Mornings"></iframe>
     </div>
   </div>
 </section>
 
-<section id="archive" class="bg-black py-12 md:py-16">
-  <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center">
+<section id="archive" class="bg-black py-10 md:py-16">
+  <div class="max-w-6xl mx-auto px-0">
+    <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center px-5">
       Thrifted Threads
       <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
     </h2>
-    <article class="max-w-4xl mx-auto bg-white/5 border border-white/10 rounded-2xl overflow-hidden reveal">
+
+    <article class="max-w-4xl mx-auto bg-white/5 border border-white/10 rounded-2xl overflow-hidden reveal px-0">
       <img
         src="media/tinopfeka_tsiki.png"
         alt="Tinopfeka Tsiki fashion piece"
-        class="w-full h-[360px] object-cover blur-up"
+        class="w-full aspect-square md:h-[360px] md:aspect-auto object-cover blur-up"
         loading="lazy"
       />
       <div class="px-6 py-5">
@@ -406,18 +434,19 @@
   </div>
 </section>
 
-<section id="submit" class="bg-white/5 py-12 md:py-20">
+<section id="submit" class="bg-white/5 py-11 md:py-20">
   <div class="max-w-xl mx-auto px-6 text-center">
     <img
       src="media/submit_cassette.png"
       alt="Cassette tape metaphor for story submission"
-      class="w-28 mx-auto mb-6 opacity-80 blur-up"
+      class="w-24 mx-auto mb-6 opacity-80 blur-up"
       loading="lazy"
     />
     <h2 class="text-xl md:text-2xl font-semibold mb-4">Submit Your Story</h2>
     <p class="text-gray-400 mb-6">
       Got an imperfect thought, a quiet moment, a memory worth pausing on?
     </p>
+
     <form id="storyForm" class="space-y-4 text-left max-w-md mx-auto">
       <div>
         <label for="storyTitle" class="block text-sm text-gray-300 mb-1">Title</label>
@@ -426,10 +455,11 @@
           name="title"
           type="text"
           required
-          class="w-full rounded-lg bg-black/40 border border-white/15 px-3 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-400"
+          class="w-full rounded-lg bg-black/40 border border-white/15 px-3 py-3 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-400"
           placeholder="Story title"
         />
       </div>
+
       <div>
         <label for="authorName" class="block text-sm text-gray-300 mb-1">Your name</label>
         <input
@@ -437,10 +467,11 @@
           name="author"
           type="text"
           required
-          class="w-full rounded-lg bg-black/40 border border-white/15 px-3 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-400"
+          class="w-full rounded-lg bg-black/40 border border-white/15 px-3 py-3 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-400"
           placeholder="How should we credit you?"
         />
       </div>
+
       <div>
         <label for="storyContent" class="block text-sm text-gray-300 mb-1">Story</label>
         <textarea
@@ -448,10 +479,11 @@
           name="content"
           rows="6"
           required
-          class="w-full rounded-lg bg-black/40 border border-white/15 px-3 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-400 resize-y"
+          class="w-full rounded-lg bg-black/40 border border-white/15 px-3 py-3 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-400 resize-y"
           placeholder="Tell your story in your own words..."
         ></textarea>
       </div>
+
       <button type="submit" class="btn w-full justify-center">
         Submit story
       </button>
@@ -460,7 +492,7 @@
   </div>
 </section>
 
-<footer class="border-t border-white/10 mt-12">
+<footer class="border-t border-white/10 mt-10">
   <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
     <span>© <span id="year"></span> Stories of Amazement</span>
     <span>Made with quiet intention.</span>
@@ -683,33 +715,6 @@
     update();
   })();
 
-  (function headerHideOnScroll() {
-    const header = document.querySelector('header');
-    if (!header) return;
-    let lastY = window.scrollY;
-    let ticking = false;
-    function onScroll() {
-      const y = window.scrollY;
-      const delta = y - lastY;
-      if (Math.abs(delta) < 8) { ticking = false; return; }
-      if (y > lastY && y > 120) {
-        header.classList.add('hidden-up');
-        header.classList.remove('revealed');
-      } else {
-        header.classList.remove('hidden-up');
-        header.classList.add('revealed');
-      }
-      lastY = y;
-      ticking = false;
-    }
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        requestAnimationFrame(onScroll);
-        ticking = true;
-      }
-    }, { passive: true });
-  })();
-
   (function storyReadMoreInit() {
     const links = $$('.read-more-link');
     if (!links.length) return;
@@ -720,8 +725,23 @@
         if (!article) return;
         const full = article.querySelector('.full-story');
         if (!full) return;
-        full.classList.remove('hidden');
-        link.remove();
+        const isOpen = full.classList.contains('open');
+        if (isOpen) {
+          full.classList.remove('open');
+          link.textContent = 'Read more';
+          link.setAttribute('aria-expanded', 'false');
+          const teaser = article.querySelector('p.text-sm');
+          if (teaser) {
+            const rect = teaser.getBoundingClientRect();
+            if (rect.top < 0) {
+              teaser.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+        } else {
+          full.classList.add('open');
+          link.textContent = 'Collapse';
+          link.setAttribute('aria-expanded', 'true');
+        }
       });
     });
   })();
