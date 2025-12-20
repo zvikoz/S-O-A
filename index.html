@@ -21,7 +21,11 @@
   <link rel="preconnect" href="https://open.spotify.com" crossorigin>
   <link rel="preconnect" href="https://i.scdn.co" crossorigin>
 
+  <!-- Preload hero for quicker first paint -->
   <link rel="preload" as="image" href="media/hero_hands.png">
+
+  <!-- Favicon (uses the SOA logo you provided) -->
+  <link rel="icon" href="media/soa_logo.png" type="image/png">
 
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -36,21 +40,12 @@
       --card-shadow: 0 22px 45px rgba(0,0,0,.65);
     }
 
+    /* Motion tokens & accessibility */
     @media (prefers-reduced-motion: reduce) {
-      * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+      * { transition: none !important; animation: none !important; scroll-behaviour: auto !important; }
     }
 
-    body {
-      font-size: 15px;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    @media (max-width: 480px) {
-      body {
-        font-size: 14px;
-      }
-    }
-
+    /* Basic utilities */
     .btn {
       display:inline-flex;
       align-items:center;
@@ -58,8 +53,8 @@
       gap:0.5rem;
       background:var(--accent);
       color:#000;
-      padding:.7rem 1.15rem;
-      border-radius:12px;
+      padding:.6rem 1rem;
+      border-radius:10px;
       font-weight:600;
       transition: transform var(--dur-short) var(--ease-quick), box-shadow var(--dur-short) var(--ease-quick), background var(--dur-short) var(--ease-quick);
       will-change: transform;
@@ -70,10 +65,12 @@
     .btn:active { transform: translateY(0) scale(.998); }
     .btn:focus { outline: 3px solid rgba(255,121,0,0.18); outline-offset: 4px; }
 
-    header { -webkit-tap-highlight-color: transparent; }
-    .nav-link { color: #e5e7eb; transition: color var(--dur-short) var(--ease-quick), transform var(--dur-short) var(--ease-quick); }
-    .nav-link:hover, .nav-link:focus { color: #fff; transform: translateY(-2px); }
+    /* Header / Nav */
+    header { -webkit-tap-highlight-colour: transparent; }
+    .nav-link { colour: #e5e7eb; transition: colour var(--dur-short) var(--ease-quick), transform var(--dur-short) var(--ease-quick); }
+    .nav-link:hover, .nav-link:focus { colour: #fff; transform: translateY(-2px); }
 
+    /* Mobile nav */
     #mobileNav {
       overflow: hidden;
       transition: max-height var(--dur-med) var(--ease-quick), opacity var(--dur-med) var(--ease-quick);
@@ -82,37 +79,32 @@
     }
     #mobileNav.open { max-height: 420px; opacity: 1; }
 
+    /* Hero */
     .hero-bg {
       transition: transform 420ms var(--ease-quick), opacity 420ms var(--ease-quick);
       will-change: transform, opacity;
     }
-    #heroTitle { line-height: 1.05; word-spacing: 0.02em; }
-    .hero-inner { transform-origin: center; transition: transform 320ms var(--ease-quick); }
+    #heroTitle { line-height: 1.02; }
+    .hero-inner { transform-origin: centre; transition: transform 320ms var(--ease-quick); }
 
+    /* Reveal utilities (scroll) */
     .reveal { opacity: 0; transform: translateY(12px); transition: opacity .5s var(--ease-quick), transform .5s var(--ease-quick); will-change: transform, opacity; }
     .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
-    .fade-in { opacity: 0; transform: translateY(6px); transition: opacity .45s var(--ease-quick), transform .45s var(--ease-quick); }
-    .fade-in.show { opacity: 1; transform: translateY(0); }
-
+    /* Playlist card extras */
     .playlist-card {
-      transition: transform 0.25s var(--ease-quick), box-shadow 0.25s var(--ease-quick), border-color 0.25s var(--ease-quick);
+      transition: transform 0.25s var(--ease-quick), box-shadow 0.25s var(--ease-quick), border-colour 0.25s var(--ease-quick);
       border-width: 1px;
       border-style: solid;
-      border-color: rgba(255, 121, 0, 0.15);
+      border-colour: rgba(255, 121, 0, 0.15);
       box-shadow: 0 0 0 rgba(0, 0, 0, 0);
       position: relative;
       overflow: hidden;
       background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.35));
     }
-    .playlist-card:hover { transform: translateY(-6px); box-shadow: var(--card-shadow); border-color: rgba(255, 121, 0, 0.8); }
+    .playlist-card:hover { transform: translateY(-6px); box-shadow: var(--card-shadow); border-colour: rgba(255, 121, 0, 0.8); }
 
-    @media (max-width: 767px) {
-      .playlist-card iframe {
-        height: 300px;
-      }
-    }
-
+    /* iframe skeleton */
     .iframe-skeleton {
       position: absolute;
       inset: 0;
@@ -127,40 +119,38 @@
       100% { background-position: -200% 0; }
     }
 
+    /* Blur-up images */
     .blur-up { filter: blur(14px) scale(1.02); transition: filter .6s var(--ease-quick), transform .6s var(--ease-quick), opacity .6s var(--ease-quick); will-change: filter, opacity, transform; }
     .img-loaded { filter: blur(0) scale(1); }
 
+    /* Lightbox */
     #lightbox { opacity: 0; transition: opacity 240ms var(--ease-quick); }
     #lightbox.open { opacity: 1; }
 
+    /* Focus visible (for keyboard) */
     :focus-visible { outline: 3px solid rgba(255,121,0,0.18); outline-offset: 4px; }
 
+    /* Small screens adjustments */
     @media (max-width: 767px) {
-      .hero-inner { padding: 0 1.6rem; }
-      .hero-bg { opacity: .5; }
-      section { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .hero-inner { padding: 0 2rem; }
+      .hero-bg { opacity: .45; }
     }
 
+    /* Header hide-on-scroll */
+    header { transition: transform .28s cubic-bezier(.2,.9,.3,1); }
+    header.hidden-up { transform: translateY(-110%); }
+    header.revealed { transform: translateY(0); }
+
+    /* Scroll progress bar */
     #scrollProgress {
       position: fixed;
       left: 0;
       top: 0;
-      height: 2px;
+      height: 3px;
       background: var(--accent);
       width: 0;
       z-index: 60;
       pointer-events: none;
-    }
-
-    .full-story {
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: max-height .45s var(--ease-quick), opacity .45s var(--ease-quick);
-    }
-    .full-story.open {
-      max-height: 4000px;
-      opacity: 1;
     }
   </style>
 </head>
@@ -169,10 +159,25 @@
 <div id="scrollProgress" aria-hidden="true"></div>
 
 <header class="sticky top-0 z-50 bg-black/90 backdrop-blur border-b border-white/10">
-  <div class="max-w-7xl mx-auto flex items-center justify-between px-5 py-3">
-    <div class="text-lg sm:text-2xl font-semibold tracking-wide text-orange-500">
-      Stories of Amazement
-    </div>
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+
+    <!-- Brand (SOA logo + Title) -->
+    <a href="#hero" class="flex items-center gap-3 min-w-0">
+      <img
+        src="media/soa_logo.png"
+        alt="Stories of Amazement logo"
+        class="h-9 w-9 sm:h-10 sm:w-10 rounded-lg object-contain bg-white/95 p-1 border border-white/10"
+        width="40"
+        height="40"
+        loading="eager"
+        decoding="async"
+      />
+      <span class="text-lg sm:text-2xl font-semibold tracking-wide text-orange-500 truncate">
+        Stories of Amazement
+      </span>
+    </a>
+
+    <!-- Desktop nav -->
     <nav class="hidden md:flex gap-6 text-sm text-gray-300 items-center">
       <a href="#hero" class="nav-link">Home</a>
       <a href="#submit" class="nav-link">Submit</a>
@@ -185,6 +190,8 @@
         aria-label="Search stories"
       />
     </nav>
+
+    <!-- Mobile controls -->
     <div class="md:hidden flex items-center gap-3">
       <button id="mobileMenuBtn" aria-expanded="false" aria-controls="mobileNav" class="p-2 rounded-md text-gray-200 hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-300" aria-label="Open menu">
         <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -195,117 +202,144 @@
       </button>
     </div>
   </div>
-  <div id="mobileNav" class="px-5 pb-4 md:hidden bg-black/95 border-t border-white/5 hidden">
-    <div class="flex flex-col gap-1 text-sm">
-      <a href="#hero" class="nav-link block py-3">Home</a>
-      <a href="#submit" class="nav-link block py-3">Submit</a>
-      <a href="#stories" class="nav-link block py-3">About</a>
-      <a href="#archive" class="nav-link block py-3">Archive</a>
+
+  <!-- Mobile nav panel -->
+  <div id="mobileNav" class="px-6 pb-4 md:hidden bg-black/95 border-t border-white/5 hidden">
+    <div class="flex flex-col gap-3 text-sm">
+      <a href="#hero" class="nav-link block py-2">Home</a>
+      <a href="#submit" class="nav-link block py-2">Submit</a>
+      <a href="#stories" class="nav-link block py-2">About</a>
+      <a href="#archive" class="nav-link block py-2">Archive</a>
     </div>
   </div>
 </header>
 
-<section id="hero" class="relative min-h-[90vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden">
+<!-- Hero -->
+<section id="hero" class="relative min-h-[75vh] md:min-h-[85vh] flex items-center justify-center overflow-hidden">
   <img
     src="media/hero_hands.png"
     alt="Two hands reaching towards each other in warm light"
     class="hero-bg absolute inset-0 w-full h-full object-cover opacity-40 scale-[1.02] will-change-transform"
     aria-hidden="true"
-    data-parallax
   />
   <div class="relative z-10 text-center max-w-2xl px-6 hero-inner">
-    <h1 id="heroTitle" class="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight mb-4">
+    <h1 id="heroTitle" class="text-3xl sm:text-4xl md:text-6xl font-semibold tracking-tight mb-4">
       <span data-typed="Cook. Create. Connect." aria-live="polite"></span>
     </h1>
     <p class="text-base sm:text-lg text-gray-300 mb-6">
-      Small moments of wonder, shared without hurry.
+      Small moments of wonder. Shared without hurry.
     </p>
     <a href="#stories" class="btn" id="enterBtn">Enter</a>
   </div>
 </section>
 
-<section id="stories" class="max-w-6xl mx-auto px-0 py-9 md:py-16">
-  <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center px-5">
+<!-- Paivepo (stories first) -->
+<section id="stories" class="max-w-6xl mx-auto px-6 py-12 md:py-16">
+  <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center">
     Paivepo
     <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
   </h2>
 
-  <div class="space-y-5 px-5">
+  <div class="space-y-6">
+
+    <!-- Story 1 -->
     <article class="bg-white/5 border border-white/10 rounded-2xl p-5 md:p-8 reveal" tabindex="0">
       <h3 class="text-lg md:text-xl font-semibold mb-1">
         From Dhivha Dollar to Calm Chitsa
       </h3>
-      <p class="text-xs text-orange-400 mb-1">A Story of Connection</p>
-      <p class="text-xs text-gray-400 mb-3">
+      <p class="text-xs text-orange-400 mb-2">A Story of Connection</p>
+      <p class="text-sm text-gray-400 mb-2">
         By ZZ · Story · Published today
       </p>
 
-      <p class="text-sm text-gray-300 mb-3 leading-relaxed">
-        Once, we trusted men in overcoats and chaos, bus conductors like Dhivha Dollar, whose name was both a joke and hope. Today, the paper is gone. But the faith remains.
+      <!-- Teaser only (does not repeat inside full story) -->
+      <p class="teaser text-sm text-gray-300 mb-4">
+        Once, we trusted men in overcoats and chaos – bus conductors like Dhivha Dollar, whose name was both a joke and hope. Today, the paper is gone. But the faith remains.
       </p>
 
-      <div class="full-story text-sm text-gray-300 space-y-3 mt-1 leading-relaxed">
-        <p><strong>Then: Dhivha's Road</strong><br>
-        You would slip your child's school fees into an envelope, fold your prayers into it, and hand it over. The rest was faith. Today, the paper is gone. But the faith remains.</p>
+      <!-- Full story -->
+      <div class="full-story hidden text-sm text-gray-300 space-y-3 mt-2">
+        <p><strong>Then: Dhivha’s Road</strong><br>
+          You’d slip your child’s school fees into an envelope, fold your prayers into it, and hand it over. The rest was faith. Today, the paper is gone. But the faith remains.
+        </p>
 
-        <p><strong>A Mother's Midnight Murmur</strong><br>
-        Predawn. Harare. Silence, then a sharp bark from bhoki.<br>
-        A phone pings. A mother stirs. "Murisei? Khule varikushaya mari iya."<br>
-        Her son's university registration hangs on that sum, a first generation dream, one deadline away from slipping.</p>
+        <p><strong>A Mother’s Midnight Murmur</strong><br>
+          Predawn. Harare. Silence, then a sharp bark from bhoki.<br>
+          A phone pings. A mother stirs. “Murisei? Khule varikushaya mari iya.”<br>
+          Her son’s university registration hangs on that sum. A first-generation dream, one deadline away from slipping.
+        </p>
 
-        <p>In Esigodhini, a cousin empties her OneMoney. In Seke, ambuya's balance moves instantly.<br>
-        In Mkoba, an aunt staring at her tuck shop earnings briefly hesitates, then sends what she can, envisioning his graduation.<br>
-        By sunrise, the bank message arrives, New A/C Bal: ZWG 3,019.94.<br>
-        The mother exhales, the boy smiles. A digital prayer answered.</p>
+        <p>
+          In Esigodhini, a cousin empties her OneMoney. In Seke, ambuya's balance moves instantly.<br>
+          In Mkoba, an aunt staring at her tuck-shop earnings briefly hesitates, then sends what she can, envisioning his graduation.<br>
+          By sunrise, the bank message arrives – New A/C Bal: ZWG 3,019.94.<br>
+          The mother exhales, the boy smiles. A digital prayer answered.
+        </p>
 
         <p><strong>Rise: The Market That Never Sleeps</strong><br>
-        As the sun climbs over Mbare Musika, the market hums.<br>
-        Tomatoes gleam. Voices rise. Phones buzz.<br>
-        At Mai Two's stall, money moves in silence. Customers pay through apps and dial pads, InnBucks, USSD, no small talk, no hassle. Her balance grows with each tomato gone. By sundown, she has enough for her toddler's favourite, maJiggies.</p>
+          As the sun climbs over Mbare Musika, the market hums.<br>
+          Tomatoes gleam. Voices rise. Phones buzz.<br>
+          At Mai Two’s stall, money moves in silence. Customers pay through apps and dial pads – InnBucks, USSD – no small talk, no hassle. Her balance grows with each tomato gone. By sundown, she has enough for her toddler’s favourite: maJiggies.
+        </p>
 
-        <p>She walks home past Rufaro Stadium with nothing in her handbag but peace of mind.<br>
-        No fear. No bundles of cash. Just numbers and trust.</p>
+        <p>
+          She walks home past Rufaro Stadium with nothing in her handbag but peace of mind.<br>
+          No fear. No bundles of cash. Just numbers and trust.
+        </p>
 
         <p><strong>A Ward Glows</strong><br>
-        Night. Chitungwiza Hospital.<br>
-        Betty's thumb hovers over the family group, "Mhamha's surgery prep, 50 dollars yakudiwa."<br>
-        In Waterfalls, a brother half wakes and sends funds via Blue247.<br>
-        In Sakubva, an aunt chips in, depleting her chicken project savings. Moments later, Betty texts, "Zvaita. Thank you, vanhuVashe."</p>
+          Night. Chitungwiza Hospital.<br>
+          Betty’s thumb hovers over the family group: “Mhamha’s surgery prep – $50 yakudiwa!”<br>
+          In Waterfalls, a brother half-wakes and sends funds via Blue247.<br>
+          In Sakubva, an aunt chips in, depleting her chicken project savings. Moments later, Betty texts: “Zvaita. Thank you, vanhuVashe.”
+        </p>
 
-        <p>She slumps against the cold tile, warmed by the buzz. Not just of the network. The people.</p>
+        <p>
+          She slumps against the cold tile, warmed by the buzz. Not just of the network. The people.
+        </p>
 
         <p><strong>Grief in Gokwe: A Final Gathering</strong><br>
-        In Gokwe, mourners congregate. WhatsApp notifications flare with the all too familiar pop up, "Ngatibatanidze ye chema." From across the nation, money trickles in transfers. Each amount small. Together, enough.<br>
-        By noon, the coffin is lowered with dignity, surrounded by love and unspoken gratitude.<br>
-        Not because people had much. But because they shared what they had.</p>
+          In Gokwe, mourners congregate. WhatsApp notifications flare with the all too familiar pop-up: “Ngatibatanidze ye chema.” From across the nation, money trickles in transfers. Each amount small. Together, enough.<br>
+          By noon, the coffin is lowered with dignity, surrounded by love and unspoken gratitude.<br>
+          Not because people had much. But because they shared what they had.
+        </p>
 
-        <p>It is not said but they all know, it is more than money.<br>
-        It is an unbreakable whispered promise that they will always show up for each other.</p>
+        <p>
+          It’s not said but they all know: It’s more than money.<br>
+          It’s an unbreakable whispered promise that they will always show up for each other.
+        </p>
 
         <p><strong>The Seamless Thread That Holds Us</strong><br>
-        We used to trust the road. Now we trust the invisible.<br>
-        Where once Dhivha Dollar ran with notes tucked in socks.<br>
-        Now, funds move from farm to flat, stall to surgery, in seconds.<br>
-        It is not flashy. It is not loud.<br>
-        It is survival disguised as routine.</p>
+          We used to trust the road. Now we trust the invisible.<br>
+          Where once Dhivha Dollar ran with notes tucked in socks.<br>
+          Now, funds move from farm to flat, stall to surgery. In seconds.<br>
+          It’s not flashy. It’s not loud.<br>
+          It’s survival disguised as routine.
+        </p>
 
         <p><strong>This is How We Rise</strong><br>
-        Each transaction is a leap of faith.<br>
-        A sacrifice.<br>
-        Hope.</p>
+          Each transaction is a leap of faith.<br>
+          A sacrifice.<br>
+          Hope.
+        </p>
 
-        <p>And what a privilege it is to wake each day to connect lives and carry hope wherever life takes our people.</p>
+        <p>
+          And what a privilege it is to wake each day to connect lives and carry hope wherever life takes our people.
+        </p>
 
         <p><strong>The Connector</strong><br>
-        David Chitsa, a dedicated Zimswitch customer service team member, has been connecting Zimbabweans for decades. He has answered late night calls, thawed frozen transfers, and calmed frantic voices. His passion for service embodies the spirit of connection that drives us as a people.<br>
-        We do not remember transactions, but we never forget how we felt each time Davido kept his promise.</p>
+          David Chitsa, a dedicated Zimswitch customer service team member, has been connecting Zimbabweans for decades. He’s answered late-night calls, thawed frozen transfers, and calmed frantic voices. His passion for service embodies the spirit of connection that drives us as a people.<br>
+          We don't remember transactions, but we'll never forget how we felt each time Davido kept his promise.
+        </p>
       </div>
 
-      <a href="#" class="read-more-link text-orange-400 text-sm font-medium hover:text-orange-300 focus-visible:underline" aria-expanded="false">
-        Read more
-      </a>
+      <div class="mt-3 flex items-center gap-4">
+        <a href="#" class="read-more-link text-orange-400 text-sm font-medium hover:text-orange-300 focus-visible:underline">Read more</a>
+        <a href="#" class="collapse-link hidden text-gray-300 text-sm hover:text-white focus-visible:underline">Collapse</a>
+      </div>
     </article>
 
+    <!-- Story 2 -->
     <article class="bg-white/5 border border-white/10 rounded-2xl p-5 md:p-8 reveal" tabindex="0">
       <h3 class="text-lg md:text-xl font-semibold mb-2">
         Learner-ed Tembo
@@ -313,28 +347,30 @@
       <p class="text-sm text-gray-400 mb-2">
         Chronicles of growth and discovery · Story · Pending
       </p>
-      <p class="text-sm text-gray-300 mb-4 leading-relaxed">
+      <p class="text-sm text-gray-300 mb-4">
         A quiet archive of experiments, lessons and gentle failures. This space is reserved for the unfolding notes of Learner-ed Tembo, once they are ready to be shared.
       </p>
       <span class="text-gray-500 text-xs">
         Coming soon
       </span>
     </article>
+
   </div>
 </section>
 
-<section id="gallery" class="max-w-6xl mx-auto px-0 py-9 md:py-20">
-  <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center px-5">
+<!-- Picasso's Playground -->
+<section id="gallery" class="max-w-6xl mx-auto px-6 py-12 md:py-20">
+  <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center">
     Picasso's Playground
     <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
   </h2>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 px-5">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
     <div class="reveal">
       <img
         src="media/shoreline_silence.png"
         alt="Calm shoreline at dawn reflecting pastel sky"
-        class="rounded-xl mb-4 w-full aspect-square md:h-64 md:aspect-auto object-cover cursor-pointer blur-up"
+        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer blur-up"
         onclick="openLightbox('media/shoreline_silence.png','Vivid Views')"
         loading="lazy"
       />
@@ -346,7 +382,7 @@
       <img
         src="media/open_horizon.png"
         alt="A wide seascape with an open sky and calm sea"
-        class="rounded-xl mb-4 w-full aspect-square md:h-64 md:aspect-auto object-cover cursor-pointer blur-up"
+        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer blur-up"
         onclick="openLightbox('media/open_horizon.png','Love and Life')"
         loading="lazy"
       />
@@ -358,7 +394,7 @@
       <img
         src="media/candle_circle.png"
         alt="A warm candle circle in darkness"
-        class="rounded-xl mb-4 w-full aspect-square md:h-64 md:aspect-auto object-cover cursor-pointer blur-up"
+        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer blur-up"
         onclick="openLightbox('media/candle_circle.png','Ritual')"
         loading="lazy"
       />
@@ -370,7 +406,7 @@
       <img
         src="media/city_crosswalk.png"
         alt="People crossing with an orange umbrella at night"
-        class="rounded-xl mb-4 w-full aspect-square md:h-64 md:aspect-auto object-cover cursor-pointer blur-up"
+        class="rounded-xl mb-4 w-full h-64 object-cover cursor-pointer blur-up"
         onclick="openLightbox('media/city_crosswalk.png','Passing Through')"
         loading="lazy"
       />
@@ -380,21 +416,22 @@
   </div>
 </section>
 
-<section class="max-w-6xl mx-auto px-0 py-9 md:py-16">
-  <h2 class="text-2xl md:text-3xl font-semibold mb-3 text-center px-5">
+<!-- Mulberry Music -->
+<section class="max-w-6xl mx-auto px-6 py-10 md:py-16">
+  <h2 class="text-2xl md:text-3xl font-semibold mb-3 text-center">
     Mulberry Music
     <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
   </h2>
-  <p class="text-center text-gray-400 mb-8 px-8">
+  <p class="text-centre text-gray-400 mb-8">
     Playlists for late night reflection, slow mornings and small domestic miracles.
   </p>
 
-  <div class="grid gap-6 md:grid-cols-2 px-5">
+  <div class="grid gap-6 md:grid-cols-2">
     <div class="playlist-card rounded-2xl bg-black/40 overflow-hidden reveal" style="min-height:180px;">
       <div class="iframe-skeleton" aria-hidden="true"></div>
       <iframe
         src="https://open.spotify.com/embed/playlist/24V7Kz8fiT75iZ7GV782ze"
-        width="100%" height="360" frameborder="0"
+        width="100%" height="380" frameborder="0"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy" class="w-full" title="Playlist: Late Night Reflection"></iframe>
     </div>
@@ -403,25 +440,26 @@
       <div class="iframe-skeleton" aria-hidden="true"></div>
       <iframe
         src="https://open.spotify.com/embed/playlist/0tM0unRHtx4J3McyQDvLHr"
-        width="100%" height="360" frameborder="0"
+        width="100%" height="380" frameborder="0"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy" class="w-full" title="Playlist: Slow Mornings"></iframe>
     </div>
   </div>
 </section>
 
-<section id="archive" class="bg-black py-10 md:py-16">
-  <div class="max-w-6xl mx-auto px-0">
-    <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center px-5">
+<!-- Thrifted Threads -->
+<section id="archive" class="bg-black py-12 md:py-16">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center">
       Thrifted Threads
       <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
     </h2>
 
-    <article class="max-w-4xl mx-auto bg-white/5 border border-white/10 rounded-2xl overflow-hidden reveal px-0">
+    <article class="max-w-4xl mx-auto bg-white/5 border border-white/10 rounded-2xl overflow-hidden reveal">
       <img
         src="media/tinopfeka_tsiki.png"
         alt="Tinopfeka Tsiki fashion piece"
-        class="w-full aspect-square md:h-[360px] md:aspect-auto object-cover blur-up"
+        class="w-full h-[360px] object-cover blur-up"
         loading="lazy"
       />
       <div class="px-6 py-5">
@@ -434,14 +472,16 @@
   </div>
 </section>
 
-<section id="submit" class="bg-white/5 py-11 md:py-20">
+<!-- Submit -->
+<section id="submit" class="bg-white/5 py-12 md:py-20">
   <div class="max-w-xl mx-auto px-6 text-center">
     <img
       src="media/submit_cassette.png"
       alt="Cassette tape metaphor for story submission"
-      class="w-24 mx-auto mb-6 opacity-80 blur-up"
+      class="w-28 mx-auto mb-6 opacity-80 blur-up"
       loading="lazy"
     />
+
     <h2 class="text-xl md:text-2xl font-semibold mb-4">Submit Your Story</h2>
     <p class="text-gray-400 mb-6">
       Got an imperfect thought, a quiet moment, a memory worth pausing on?
@@ -455,7 +495,7 @@
           name="title"
           type="text"
           required
-          class="w-full rounded-lg bg-black/40 border border-white/15 px-3 py-3 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-400"
+          class="w-full rounded-lg bg-black/40 border border-white/15 px-3 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-400"
           placeholder="Story title"
         />
       </div>
@@ -467,7 +507,7 @@
           name="author"
           type="text"
           required
-          class="w-full rounded-lg bg-black/40 border border-white/15 px-3 py-3 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-400"
+          class="w-full rounded-lg bg-black/40 border border-white/15 px-3 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-400"
           placeholder="How should we credit you?"
         />
       </div>
@@ -479,7 +519,7 @@
           name="content"
           rows="6"
           required
-          class="w-full rounded-lg bg-black/40 border border-white/15 px-3 py-3 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-400 resize-y"
+          class="w-full rounded-lg bg-black/40 border border-white/15 px-3 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-400 resize-y"
           placeholder="Tell your story in your own words..."
         ></textarea>
       </div>
@@ -487,18 +527,20 @@
       <button type="submit" class="btn w-full justify-center">
         Submit story
       </button>
+
       <p id="storyFeedback" class="text-xs text-center text-gray-500 mt-2" aria-live="polite"></p>
     </form>
   </div>
 </section>
 
-<footer class="border-t border-white/10 mt-10">
+<footer class="border-t border-white/10 mt-12">
   <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
     <span>© <span id="year"></span> Stories of Amazement</span>
     <span>Made with quiet intention.</span>
   </div>
 </footer>
 
+<!-- Lightbox -->
 <div id="lightbox"
      class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50"
      onclick="closeLightbox()" role="dialog" aria-modal="true" aria-hidden="true">
@@ -506,20 +548,26 @@
 </div>
 
 <script>
+  /* Utility: safe query */
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
+  // Footer year
   document.getElementById("year").textContent = new Date().getFullYear();
 
+  // Mobile nav toggle
   (function setupMobileNav(){
     const btn = document.getElementById('mobileMenuBtn');
     const panel = document.getElementById('mobileNav');
     if (!btn || !panel) return;
+
     btn.addEventListener('click', () => {
       const open = panel.classList.toggle('open');
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       panel.classList.toggle('hidden', !open);
     });
+
+    // close when clicking a link
     panel.addEventListener('click', (e) => {
       if (e.target.tagName === 'A') {
         panel.classList.remove('open');
@@ -529,9 +577,11 @@
     });
   })();
 
+  // Lightbox with fade and Escape support
   (function lightboxInit(){
     const lightbox = document.getElementById('lightbox');
     const img = document.getElementById('lightbox-img');
+
     function open(src, title){
       img.style.opacity = 0;
       img.src = src;
@@ -540,10 +590,13 @@
       lightbox.classList.add('open','flex');
       document.body.style.overflow = 'hidden';
       lightbox.setAttribute('aria-hidden', 'false');
+
       img.onload = () => { img.classList.add('img-loaded'); img.style.opacity = 1; };
       img.onerror = () => { img.style.opacity = 1; };
+
       document.addEventListener('keydown', onKey);
     }
+
     function close(){
       lightbox.classList.remove('open','flex');
       lightbox.classList.add('hidden');
@@ -553,24 +606,31 @@
       img.src = '';
       img.classList.remove('img-loaded');
     }
+
     function onKey(e){
       if (e.key === 'Escape') close();
     }
+
     window.openLightbox = open;
     window.closeLightbox = close;
   })();
 
+  // Typewriter effect for hero title (respects reduced motion)
   (function typewriterInit(){
     const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const span = $('#heroTitle span[data-typed]');
     if (!span) return;
+
     const fullText = span.getAttribute('data-typed') || '';
+
     if (prefersReduce) {
       span.textContent = fullText;
       return;
     }
+
     span.textContent = '';
     let i = 0;
+
     function step(){
       if (i <= fullText.length) {
         span.textContent = fullText.slice(0, i);
@@ -583,43 +643,12 @@
     step();
   })();
 
-  (function parallaxInit(){
-    const hero = document.getElementById('hero');
-    const img = hero ? hero.querySelector('[data-parallax]') : null;
-    if (!hero || !img) return;
-    const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
-    if (prefersReduce || isTouch) return;
-    let mouseX = 0, mouseY = 0;
-    let targetX = 0, targetY = 0;
-    let ticking = false;
-    hero.addEventListener('mousemove', (e) => {
-      const rect = hero.getBoundingClientRect();
-      mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-      mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-      requestTick();
-    });
-    hero.addEventListener('mouseleave', () => {
-      mouseX = 0;
-      mouseY = 0;
-      requestTick();
-    });
-    function requestTick(){ if (!ticking){ requestAnimationFrame(update); ticking = true; } }
-    function update(){
-      targetX += (mouseX - targetX) * 0.12;
-      targetY += (mouseY - targetY) * 0.12;
-      const translateX = targetX * 8;
-      const translateY = targetY * 6;
-      const scale = 1.04 + Math.abs(targetX + targetY) * 0.006;
-      img.style.transform = 'scale(' + scale + ') translate(' + translateX + 'px,' + translateY + 'px)';
-      ticking = false;
-    }
-  })();
-
+  // Reveal on scroll + blur-up images
   (function revealInit(){
     const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const reveals = $$('.reveal');
     const blurs = $$('.blur-up');
+
     const io = new IntersectionObserver((entries, obs) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -628,11 +657,13 @@
         }
       });
     }, { threshold: 0.12 });
+
     if (!prefersReduce) {
       reveals.forEach((r) => io.observe(r));
     } else {
       reveals.forEach(r => r.classList.add('is-visible'));
     }
+
     blurs.forEach(img => {
       if (img.complete && img.naturalWidth !== 0) {
         img.classList.add('img-loaded');
@@ -642,31 +673,37 @@
     });
   })();
 
+  // Iframe skeleton removal
   (function iframeSkeleton(){
     const iframes = Array.from(document.querySelectorAll('iframe'));
     iframes.forEach(frame => {
-      let parent = frame.closest('.playlist-card');
+      const parent = frame.closest('.playlist-card');
       if (!parent) return;
       const skeleton = parent.querySelector('.iframe-skeleton');
+
       let cleaned = false;
       function remove(){
         if (cleaned) return;
         cleaned = true;
         if (skeleton) skeleton.remove();
       }
+
       frame.addEventListener('load', remove, { once: true });
       setTimeout(remove, 4000);
     });
   })();
 
+  // Smooth scroll (unless reduced motion) + close mobile nav on outside click
   (function smallUX(){
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      try { document.documentElement.style.scrollBehavior = 'smooth'; } catch(e){}
+      try { document.documentElement.style.scrollBehaviour = 'smooth'; } catch(e){}
     }
+
     document.addEventListener('click', function(e){
       const nav = document.getElementById('mobileNav');
       const btn = document.getElementById('mobileMenuBtn');
       if (!nav || !btn) return;
+
       if (nav.classList.contains('open')) {
         if (!nav.contains(e.target) && !btn.contains(e.target)) {
           nav.classList.remove('open');
@@ -677,6 +714,7 @@
     }, { passive: true });
   })();
 
+  // Keyboard access for gallery images
   (function galleryKeyboard() {
     const items = Array.from(document.querySelectorAll('#gallery img'));
     items.forEach(img => {
@@ -692,12 +730,15 @@
     });
   })();
 
+  // Scroll progress bar
   (function scrollProgressInit() {
-    const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduce) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     const bar = document.getElementById('scrollProgress');
     if (!bar) return;
+
     let ticking = false;
+
     function update() {
       const doc = document.documentElement;
       const scroll = doc.scrollTop || document.body.scrollTop;
@@ -706,60 +747,102 @@
       bar.style.width = Math.round(pct * 100) + '%';
       ticking = false;
     }
+
     window.addEventListener('scroll', () => {
       if (!ticking) {
         requestAnimationFrame(update);
         ticking = true;
       }
     }, { passive: true });
+
     update();
   })();
 
+  // Header hide-on-scroll
+  (function headerHideOnScroll() {
+    const header = document.querySelector('header');
+    if (!header) return;
+
+    let lastY = window.scrollY;
+    let ticking = false;
+
+    function onScroll() {
+      const y = window.scrollY;
+      const delta = y - lastY;
+
+      if (Math.abs(delta) < 8) { ticking = false; return; }
+
+      if (y > lastY && y > 120) {
+        header.classList.add('hidden-up');
+        header.classList.remove('revealed');
+      } else {
+        header.classList.remove('hidden-up');
+        header.classList.add('revealed');
+      }
+
+      lastY = y;
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(onScroll);
+        ticking = true;
+      }
+    }, { passive: true });
+  })();
+
+  // Read more / Collapse (no repeated first paragraph)
   (function storyReadMoreInit() {
-    const links = $$('.read-more-link');
-    if (!links.length) return;
-    links.forEach(link => {
-      link.addEventListener('click', function (e) {
-        e.preventDefault();
-        const article = link.closest('article');
-        if (!article) return;
-        const full = article.querySelector('.full-story');
-        if (!full) return;
-        const isOpen = full.classList.contains('open');
-        if (isOpen) {
-          full.classList.remove('open');
-          link.textContent = 'Read more';
-          link.setAttribute('aria-expanded', 'false');
-          const teaser = article.querySelector('p.text-sm');
-          if (teaser) {
-            const rect = teaser.getBoundingClientRect();
-            if (rect.top < 0) {
-              teaser.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-          }
-        } else {
-          full.classList.add('open');
-          link.textContent = 'Collapse';
-          link.setAttribute('aria-expanded', 'true');
-        }
-      });
+    const article = document.querySelector('#stories article');
+    if (!article) return;
+
+    const readMore = article.querySelector('.read-more-link');
+    const collapse = article.querySelector('.collapse-link');
+    const full = article.querySelector('.full-story');
+
+    if (!readMore || !collapse || !full) return;
+
+    readMore.addEventListener('click', (e) => {
+      e.preventDefault();
+      full.classList.remove('hidden');
+      readMore.classList.add('hidden');
+      collapse.classList.remove('hidden');
+      // gentle scroll to keep context on mobile
+      full.scrollIntoView({ block: 'nearest', behaviour: 'smooth' });
+    });
+
+    collapse.addEventListener('click', (e) => {
+      e.preventDefault();
+      full.classList.add('hidden');
+      collapse.classList.add('hidden');
+      readMore.classList.remove('hidden');
+      // keep the reader on the teaser again
+      article.scrollIntoView({ block: 'start', behaviour: 'smooth' });
     });
   })();
 
+  // Story submit (front-end only; needs a real backend to work in production)
   (function storySubmitInit() {
     const form = document.getElementById("storyForm");
     const feedback = document.getElementById("storyFeedback");
     if (!form) return;
+
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
+
       const title = document.getElementById("storyTitle")?.value.trim();
       const author = document.getElementById("authorName")?.value.trim();
       const content = document.getElementById("storyContent")?.value.trim();
+
       if (!title || !author || !content) {
         if (feedback) feedback.textContent = "Please fill in all fields before submitting.";
         return;
       }
+
+      // Replace with your real endpoint when you deploy a backend (e.g. /api/stories)
       const endpoint = "http://localhost:4000/stories";
+
       try {
         if (feedback) feedback.textContent = "Sending story...";
         const res = await fetch(endpoint, {
@@ -767,17 +850,17 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ title, author, content })
         });
+
         if (!res.ok) throw new Error("Failed");
+
         form.reset();
         if (feedback) feedback.textContent = "Story submitted. Thank you.";
       } catch (err) {
         console.error(err);
-        if (feedback) feedback.textContent = "Something went wrong. Please try again later.";
+        if (feedback) feedback.textContent = "Submission is not live yet (backend not connected).";
       }
     });
   })();
-
-  window.addEventListener('DOMContentLoaded', function () {});
 </script>
 
 </body>
