@@ -45,6 +45,9 @@
     a, button { -webkit-tap-highlight-color: transparent; }
     .tap { padding: .6rem .7rem; border-radius: .65rem; }
 
+    :focus-visible { outline: 3px solid rgba(255,121,0,0.18); outline-offset: 4px; }
+    :target{ scroll-margin-top: 92px; }
+
     .btn {
       display:inline-flex;
       align-items:center;
@@ -63,8 +66,6 @@
     }
     .btn:hover { transform: translateY(-2px) scale(1.008); }
     .btn:active { transform: translateY(0) scale(.998); }
-    .btn:focus { outline: 3px solid rgba(255,121,0,0.18); outline-offset: 4px; }
-    :focus-visible { outline: 3px solid rgba(255,121,0,0.18); outline-offset: 4px; }
 
     .nav-link {
       color:#e5e7eb;
@@ -72,6 +73,7 @@
       min-height:44px;
       display:inline-flex;
       align-items:center;
+      text-decoration:none;
     }
     .nav-link:hover, .nav-link:focus { color:#fff; transform: translateY(-1px); }
 
@@ -81,7 +83,7 @@
       max-height:0;
       opacity:0;
     }
-    #mobileNav.open{ max-height:520px; opacity:1; }
+    #mobileNav.open{ max-height:560px; opacity:1; }
 
     .hero-bg{
       transition: transform 420ms var(--ease-quick), opacity 420ms var(--ease-quick);
@@ -192,9 +194,7 @@
       min-height:44px;
     }
     .chip:hover{ transform: translateY(-1px); border-color: rgba(255,121,0,.7); background: rgba(0,0,0,.5); }
-    .chip:focus{ outline: 3px solid rgba(255,121,0,0.18); outline-offset: 4px; }
 
-    /* Bottom nav for mobile */
     #bottomNav{
       position:fixed;
       left:0;
@@ -209,8 +209,8 @@
     #bottomNav a{
       flex:1;
       text-align:center;
-      padding:.65rem .4rem;
-      font-size:.8rem;
+      padding:.6rem .35rem;
+      font-size:.78rem;
       color:#d1d5db;
       text-decoration:none;
       min-height:52px;
@@ -218,23 +218,32 @@
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      gap:.25rem;
+      gap:.3rem;
     }
-    #bottomNav a.active{ color: #fff; }
+    #bottomNav a.active{ color:#fff; }
     #bottomNav svg{ opacity:.9; }
+
+    .nav-logo{
+      width:18px;
+      height:18px;
+      border-radius:6px;
+      object-fit:contain;
+      display:block;
+      opacity:.95;
+    }
 
     @media (min-width: 768px){
       #bottomNav{ display:none; }
       body{ padding-bottom:0; }
     }
     @media (max-width: 767px){
-      body{ padding-bottom:72px; }
+      body{ padding-bottom:78px; }
     }
 
     #toTop{
       position:fixed;
       right:14px;
-      bottom:86px;
+      bottom:92px;
       z-index:56;
       opacity:0;
       transform: translateY(10px);
@@ -326,10 +335,8 @@
       background: rgba(255,255,255,.03);
       margin-bottom:10px;
     }
-    .result a{ color: #fff; text-decoration:none; }
+    .result a{ color:#fff; text-decoration:none; }
     .result p{ color:#9ca3af; font-size:.85rem; margin-top:.2rem; }
-
-    .media-card img{ border-radius:14px; }
 
     .story-controls{
       display:flex;
@@ -351,8 +358,6 @@
       min-height:44px;
     }
     .story-controls .btn-lite:hover{ border-color: rgba(255,121,0,.7); color:#fff; }
-
-    :target{ scroll-margin-top: 92px; }
   </style>
 </head>
 
@@ -361,7 +366,6 @@
 
   <header class="sticky top-0 z-50 bg-black/90 backdrop-blur border-b border-white/10">
     <div class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
-
       <a href="#hero" class="flex items-center gap-3 min-w-0 tap" aria-label="Go to top">
         <img
           src="media/soa_logo.png"
@@ -381,7 +385,8 @@
         <a href="#hero" class="nav-link tap">Home</a>
         <a href="#stories" class="nav-link tap">Read</a>
         <a href="#gallery" class="nav-link tap">Gallery</a>
-        <a href="#archive" class="nav-link tap">Archive</a>
+        <a href="#fashion" class="nav-link tap">Fashion</a>
+        <a href="#music" class="nav-link tap">Listen</a>
         <a href="#submit" class="nav-link tap">Submit</a>
 
         <button id="openSearchBtn"
@@ -420,13 +425,13 @@
         <a href="#hero" class="nav-link tap">Home</a>
         <a href="#stories" class="nav-link tap">Read</a>
         <a href="#gallery" class="nav-link tap">Gallery</a>
-        <a href="#archive" class="nav-link tap">Archive</a>
+        <a href="#fashion" class="nav-link tap">Fashion</a>
+        <a href="#music" class="nav-link tap">Listen</a>
         <a href="#submit" class="nav-link tap">Submit</a>
       </div>
     </div>
   </header>
 
-  <!-- Hero -->
   <section id="hero" class="relative min-h-[74vh] sm:min-h-[75vh] md:min-h-[85vh] flex items-center justify-center overflow-hidden">
     <img
       src="media/hero_hands.png"
@@ -444,10 +449,10 @@
         Small moments of wonder. Shared without hurry.
       </p>
 
-      <!-- Hero quick actions (kept, but cleaned) -->
       <div class="hero-actions" aria-label="Quick actions">
         <a href="#stories" class="chip">Read</a>
         <a href="#gallery" class="chip">Gallery</a>
+        <a href="#fashion" class="chip">Fashion</a>
         <a href="#music" class="chip">Listen</a>
         <a href="#submit" class="chip">Submit</a>
       </div>
@@ -458,7 +463,6 @@
     </div>
   </section>
 
-  <!-- Stories -->
   <section id="stories" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 md:py-16">
     <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center">
       Paivepo
@@ -466,7 +470,6 @@
     </h2>
 
     <div class="space-y-6">
-
       <article class="bg-white/5 border border-white/10 rounded-2xl p-5 md:p-8 reveal reading" tabindex="0" data-story data-title="From Dhivha Dollar to Calm Chitsa" data-author="ZZ">
         <div class="flex items-start justify-between gap-3 flex-wrap">
           <div>
@@ -479,7 +482,7 @@
           </div>
         </div>
 
-        <div class="text-sm text-gray-300 prose story-wrap" data-prose>
+        <div class="text-sm text-gray-300 prose" data-prose>
           <p class="teaser mb-4">
             Once, we trusted men in overcoats and chaos – bus conductors like Dhivha Dollar, whose name was both a joke and hope. Today, the paper is gone. But the faith remains.
           </p>
@@ -581,11 +584,9 @@
         </p>
         <span class="text-gray-500 text-xs">Coming soon</span>
       </article>
-
     </div>
   </section>
 
-  <!-- Gallery -->
   <section id="gallery" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 md:py-20">
     <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center">
       Picasso's Playground
@@ -593,7 +594,7 @@
     </h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div class="reveal media-card">
+      <div class="reveal">
         <img
           src="media/shoreline_silence.png"
           alt="Calm shoreline at dawn reflecting pastel sky"
@@ -606,7 +607,7 @@
         <p class="text-gray-400 text-sm">Presence, not performance.</p>
       </div>
 
-      <div class="reveal media-card">
+      <div class="reveal">
         <img
           src="media/open_horizon.png"
           alt="A wide seascape with an open sky and calm sea"
@@ -619,7 +620,7 @@
         <p class="text-gray-400 text-sm">Space to breathe inside the moment.</p>
       </div>
 
-      <div class="reveal media-card">
+      <div class="reveal">
         <img
           src="media/candle_circle.png"
           alt="A warm candle circle in darkness"
@@ -632,7 +633,7 @@
         <p class="text-gray-400 text-sm">Light holding the dark.</p>
       </div>
 
-      <div class="reveal media-card">
+      <div class="reveal">
         <img
           src="media/city_crosswalk.png"
           alt="People crossing with an orange umbrella at night"
@@ -647,7 +648,6 @@
     </div>
   </section>
 
-  <!-- Music -->
   <section id="music" class="max-w-6xl mx-auto px-4 sm:px-6 py-10 md:py-16">
     <h2 class="text-2xl md:text-3xl font-semibold mb-3 text-center">
       Mulberry Music
@@ -682,7 +682,6 @@
     </div>
   </section>
 
-  <!-- Archive -->
   <section id="archive" class="bg-black py-12 md:py-16">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center">
@@ -690,7 +689,7 @@
         <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>
       </h2>
 
-      <article class="max-w-4xl mx-auto bg-white/5 border border-white/10 rounded-2xl overflow-hidden reveal">
+      <article id="fashion" class="max-w-4xl mx-auto bg-white/5 border border-white/10 rounded-2xl overflow-hidden reveal">
         <img
           src="media/tinopfeka_tsiki.png"
           alt="Tinopfeka Tsiki fashion piece"
@@ -706,7 +705,6 @@
     </div>
   </section>
 
-  <!-- Submit -->
   <section id="submit" class="bg-white/5 py-12 md:py-20">
     <div class="max-w-xl mx-auto px-4 sm:px-6 text-center">
       <img
@@ -769,7 +767,7 @@
       </div>
       <div class="sheet-body">
         <div id="searchResults" class="text-sm text-gray-200"></div>
-        <p class="text-xs text-gray-500 mt-2">Tip: try “Dhivha”, “market”, “Mulberry”, “Tinopfeka”.</p>
+        <p class="text-xs text-gray-500 mt-2">Tip: try “Dhivha”, “Mulberry”, “Tinopfeka”.</p>
       </div>
     </div>
   </div>
@@ -778,12 +776,9 @@
     <button type="button" aria-label="Back to top" title="Back to top">Top</button>
   </div>
 
-  <!-- Bottom nav (mobile) -->
   <nav id="bottomNav" class="md:hidden flex" aria-label="Bottom navigation">
-    <a href="#hero" data-nav="hero">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M3 11l9-8 9 8v10a1 1 0 01-1 1h-5v-7H9v7H4a1 1 0 01-1-1V11z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-      </svg>
+    <a href="#hero" data-nav="hero" aria-label="Home">
+      <img src="media/soa_logo.png" alt="" class="nav-logo" loading="eager" decoding="async">
       Home
     </a>
 
@@ -802,6 +797,14 @@
         <circle cx="9" cy="9" r="1" fill="currentColor"/>
       </svg>
       Gallery
+    </a>
+
+    <a href="#fashion" data-nav="fashion">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M8 7l4-3 4 3 3 2-2 4v9H7v-9L5 9l3-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M9 10h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      Fashion
     </a>
 
     <a href="#music" data-nav="music">
@@ -852,6 +855,8 @@
       const lightbox = document.getElementById('lightbox');
       const img = document.getElementById('lightbox-img');
 
+      function onKey(e){ if (e.key === 'Escape') close(); }
+
       function open(src, title){
         img.style.opacity = 0;
         img.src = src;
@@ -875,7 +880,6 @@
         img.src = '';
         img.classList.remove('img-loaded');
       }
-      function onKey(e){ if (e.key === 'Escape') close(); }
 
       window.openLightbox = open;
       window.closeLightbox = close;
@@ -1183,6 +1187,7 @@
         hero: document.getElementById('hero'),
         stories: document.getElementById('stories'),
         gallery: document.getElementById('gallery'),
+        fashion: document.getElementById('fashion'),
         music: document.getElementById('music'),
         submit: document.getElementById('submit')
       };
@@ -1207,7 +1212,7 @@
       const closeBtn = document.getElementById('closeSearchBtn');
       if (!sheet || !input || !results) return;
 
-      const index = Array.from(document.querySelectorAll('[data-story], section[id]')).map(el => {
+      const index = Array.from(document.querySelectorAll('[data-story], section[id], article[id]')).map(el => {
         if (el.matches('[data-story]')) {
           const title = el.getAttribute('data-title') || '';
           const author = el.getAttribute('data-author') || '';
@@ -1215,10 +1220,12 @@
           return { type: 'Story', title, meta: author ? `By ${author}` : '', text, href: '#stories' };
         }
         const id = el.id || '';
-        const heading = el.querySelector('h2')?.innerText?.trim() || id;
+        const heading = el.querySelector('h2')?.innerText?.trim() || el.querySelector('h3')?.innerText?.trim() || id;
         const text = (el.innerText || '').replace(/\s+/g,' ').trim();
         return { type: 'Section', title: heading, meta: id, text, href: `#${id}` };
       });
+
+      function onKey(e){ if (e.key === 'Escape') close(); }
 
       function open(){
         sheet.classList.add('open');
@@ -1231,9 +1238,6 @@
         sheet.classList.remove('open');
         document.body.style.overflow = '';
         document.removeEventListener('keydown', onKey);
-      }
-      function onKey(e){
-        if (e.key === 'Escape') close();
       }
 
       function render(q){
@@ -1274,9 +1278,7 @@
       sheet.addEventListener('click', (e) => {
         if (e.target === sheet) close();
         const a = e.target.closest('a[data-close-search]');
-        if (a){
-          close();
-        }
+        if (a) close();
       });
     })();
 
