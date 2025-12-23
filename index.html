@@ -372,6 +372,18 @@
     }
     .notice a{ color:#fff; text-decoration:none; border-bottom:1px solid rgba(255,255,255,.2); }
     .notice a:hover{ border-bottom-color: rgba(255,121,0,.8); }
+
+    /* Submit status styles */
+    .status{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.25);
+      border-radius: 14px;
+      padding: 10px 12px;
+      color:#d1d5db;
+      font-size:.88rem;
+    }
+    .status.success{ border-color: rgba(34,197,94,.35); }
+    .status.error{ border-color: rgba(239,68,68,.35); }
   </style>
 </head>
 
@@ -720,6 +732,7 @@
     </div>
   </section>
 
+  <!-- ✅ UPDATED SUBMIT SECTION: now posts to Google Form + includes Images link -->
   <section id="submit" class="bg-white/5 py-12 md:py-20">
     <div class="max-w-xl mx-auto px-4 sm:px-6 text-center">
       <img
@@ -733,37 +746,79 @@
       <h2 class="text-xl md:text-2xl font-semibold mb-4">Submit Your Story</h2>
       <p class="text-gray-400 mb-4 reading">Got an imperfect thought, a quiet moment, a memory worth pausing on?</p>
 
-      <!-- 2) Submit clarity and safe fallback -->
       <div class="notice text-left max-w-md mx-auto mb-6">
-        Submissions are not live yet. For now, this sends your story to your email app so you can forward it to yourself or your editor.
+        This is now live. Your submission is sent to the Stories of Amazement inbox via Google Forms.
       </div>
 
-      <form id="storyForm" class="space-y-4 text-left max-w-md mx-auto">
+      <!-- Posts directly to Google Forms -->
+      <form
+        id="storyForm"
+        class="space-y-4 text-left max-w-md mx-auto"
+        action="https://docs.google.com/forms/d/e/1FAIpQLSeWqLzh-8WCbURMxrsmbSejtNo9SDRVteuAfxFg-Cem3DDnIA/formResponse"
+        method="POST"
+        target="hidden_iframe"
+        autocomplete="on"
+      >
+        <!-- Title -->
         <div>
           <label for="storyTitle" class="block text-sm text-gray-300 mb-1">Title</label>
-          <input id="storyTitle" name="title" type="text" required
+          <input
+            id="storyTitle"
+            name="entry.1875156860"
+            type="text"
+            required
             class="w-full rounded-lg bg-black/40 border border-white/15 px-3 py-2.5 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-400"
-            placeholder="Story title"/>
+            placeholder="Story title"
+          />
         </div>
 
+        <!-- Author -->
         <div>
           <label for="authorName" class="block text-sm text-gray-300 mb-1">Your name</label>
-          <input id="authorName" name="author" type="text" required
+          <input
+            id="authorName"
+            name="entry.701507615"
+            type="text"
+            required
             class="w-full rounded-lg bg-black/40 border border-white/15 px-3 py-2.5 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-400"
-            placeholder="How should we credit you?"/>
+            placeholder="How should we credit you?"
+          />
         </div>
 
+        <!-- Story -->
         <div>
           <label for="storyContent" class="block text-sm text-gray-300 mb-1">Story</label>
-          <textarea id="storyContent" name="content" rows="7" required
+          <textarea
+            id="storyContent"
+            name="entry.1392805721"
+            rows="7"
+            required
             class="w-full rounded-lg bg-black/40 border border-white/15 px-3 py-2.5 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-400 auto-grow"
-            placeholder="Tell your story in your own words..."></textarea>
+            placeholder="Tell your story in your own words..."
+          ></textarea>
           <div class="helper">Short or long, both welcome.</div>
         </div>
 
-        <button id="submitBtn" type="submit" class="btn w-full justify-center">Prepare email</button>
-        <p id="storyFeedback" class="text-xs text-center text-gray-500 mt-2" aria-live="polite"></p>
+        <!-- Images link -->
+        <div>
+          <label for="imagesLink" class="block text-sm text-gray-300 mb-1">Images link</label>
+          <input
+            id="imagesLink"
+            name="entry.1317851280"
+            type="url"
+            class="w-full rounded-lg bg-black/40 border border-white/15 px-3 py-2.5 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-orange-400"
+            placeholder="Paste a Google Photos / Drive link (optional)"
+          />
+          <div class="helper">Optional. Ensure the link is set to “Anyone with the link can view”.</div>
+        </div>
+
+        <button id="submitBtn" type="submit" class="btn w-full justify-center">Submit</button>
+
+        <div id="storyFeedback" class="status hidden" aria-live="polite"></div>
       </form>
+
+      <!-- hidden iframe so the page doesn't navigate away -->
+      <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" title="hidden"></iframe>
     </div>
   </section>
 
@@ -1139,12 +1194,13 @@
       }, { passive: true });
     })();
 
-    // 2) Submit flow: no fake localhost, use mailto fallback
+    // ✅ UPDATED Submit handling: show success message after iframe post
     (function storySubmitInit() {
       const form = document.getElementById("storyForm");
       const feedback = document.getElementById("storyFeedback");
       const btn = document.getElementById("submitBtn");
       const textarea = document.getElementById("storyContent");
+      const iframe = document.getElementById("hidden_iframe");
       if (!form) return;
 
       function autoGrow(el){
@@ -1158,36 +1214,36 @@
         textarea.addEventListener('input', () => autoGrow(textarea), { passive: true });
       }
 
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
+      let submitted = false;
 
-        const title = document.getElementById("storyTitle")?.value.trim();
-        const author = document.getElementById("authorName")?.value.trim();
-        const content = document.getElementById("storyContent")?.value.trim();
+      form.addEventListener("submit", function () {
+        submitted = true;
+        if (btn){ btn.disabled = true; btn.textContent = "Submitting..."; btn.style.opacity = ".85"; }
+        if (feedback){
+          feedback.classList.remove('hidden','success','error');
+          feedback.classList.add('status');
+          feedback.textContent = "Submitting your story...";
+        }
+      });
 
-        if (!title || !author || !content) {
-          if (feedback) feedback.textContent = "Please fill in all fields before submitting.";
-          return;
+      iframe?.addEventListener("load", function () {
+        if (!submitted) return;
+        submitted = false;
+
+        if (feedback){
+          feedback.classList.remove('error');
+          feedback.classList.add('success');
+          feedback.textContent = "Submitted. Thank you. We’ve received it.";
         }
 
-        // Change this to your preferred recipient later (or keep blank and let user choose)
-        const to = "";
-        const subject = encodeURIComponent("SOA Submission: " + title);
-        const body = encodeURIComponent(
-          "Title: " + title + "\n" +
-          "Author: " + author + "\n\n" +
-          content + "\n\n" +
-          "Sent from: https://zvikoz.github.io/S-O-A/"
-        );
+        form.reset();
+        if (textarea) autoGrow(textarea);
 
-        if (btn){ btn.disabled = true; btn.textContent = "Opening email..."; btn.style.opacity = ".85"; }
-        if (feedback) feedback.textContent = "Your email app is opening with the story prefilled.";
-
-        window.location.href = "mailto:" + to + "?subject=" + subject + "&body=" + body;
-
-        setTimeout(() => {
-          if (btn){ btn.disabled = false; btn.textContent = "Prepare email"; btn.style.opacity = "1"; }
-        }, 900);
+        if (btn){
+          btn.disabled = false;
+          btn.textContent = "Submit";
+          btn.style.opacity = "1";
+        }
       });
     })();
 
