@@ -6,14 +6,16 @@
   <title>Stories of Amazement</title>
   <meta name="description" content="Short reflections, images, audio and playlists about human amazement and connection." />
 
-  <link rel="canonical" href="https://your-domain.example/" />
+  <!-- 1) Metadata fixed for your live GitHub Pages site -->
+  <link rel="canonical" href="https://zvikoz.github.io/S-O-A/" />
   <meta name="theme-color" content="#000000" />
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Stories of Amazement" />
   <meta property="og:description" content="Short reflections, images, audio and playlists about human amazement and connection." />
-  <meta property="og:image" content="https://your-domain.example/og-cover.jpg" />
-  <meta property="og:url" content="https://your-domain.example/" />
+  <!-- Use a file that definitely exists today -->
+  <meta property="og:image" content="https://zvikoz.github.io/S-O-A/media/soa_logo.png" />
+  <meta property="og:url" content="https://zvikoz.github.io/S-O-A/" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="robots" content="index, follow" />
@@ -358,6 +360,18 @@
       min-height:44px;
     }
     .story-controls .btn-lite:hover{ border-color: rgba(255,121,0,.7); color:#fff; }
+
+    /* 2) Submit clarity, make "not live" explicit but tasteful */
+    .notice{
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.35);
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: #d1d5db;
+      font-size: .9rem;
+    }
+    .notice a{ color:#fff; text-decoration:none; border-bottom:1px solid rgba(255,255,255,.2); }
+    .notice a:hover{ border-bottom-color: rgba(255,121,0,.8); }
   </style>
 </head>
 
@@ -483,8 +497,9 @@
         </div>
 
         <div class="text-sm text-gray-300 prose" data-prose>
+          <!-- 3) Read-more polish: tighter teaser -->
           <p class="teaser mb-4">
-            Once, we trusted men in overcoats and chaos – bus conductors like Dhivha Dollar, whose name was both a joke and hope. Today, the paper is gone. But the faith remains.
+            We once trusted men in overcoats and chaos. Today the paper is gone. The faith remains.
           </p>
 
           <div class="preview space-y-3" data-preview>
@@ -716,7 +731,12 @@
       />
 
       <h2 class="text-xl md:text-2xl font-semibold mb-4">Submit Your Story</h2>
-      <p class="text-gray-400 mb-6 reading">Got an imperfect thought, a quiet moment, a memory worth pausing on?</p>
+      <p class="text-gray-400 mb-4 reading">Got an imperfect thought, a quiet moment, a memory worth pausing on?</p>
+
+      <!-- 2) Submit clarity and safe fallback -->
+      <div class="notice text-left max-w-md mx-auto mb-6">
+        Submissions are not live yet. For now, this sends your story to your email app so you can forward it to yourself or your editor.
+      </div>
 
       <form id="storyForm" class="space-y-4 text-left max-w-md mx-auto">
         <div>
@@ -741,7 +761,7 @@
           <div class="helper">Short or long, both welcome.</div>
         </div>
 
-        <button id="submitBtn" type="submit" class="btn w-full justify-center">Submit story</button>
+        <button id="submitBtn" type="submit" class="btn w-full justify-center">Prepare email</button>
         <p id="storyFeedback" class="text-xs text-center text-gray-500 mt-2" aria-live="polite"></p>
       </form>
     </div>
@@ -800,7 +820,6 @@
       Gallery
     </a>
 
-    <!-- Listen moved ABOVE Fashion -->
     <a href="#music" data-nav="music">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -1035,8 +1054,16 @@
       }, { passive: true });
     })();
 
+    // 3) Read-more polish: better open/close behaviour and scroll positioning
     (function storyToggleInit(){
       const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function scrollWithHeader(el, block='start'){
+        if (!el) return;
+        if (prefersReduce) { el.scrollIntoView({ block }); return; }
+        el.scrollIntoView({ block, behavior: 'smooth' });
+        setTimeout(() => window.scrollBy(0, -86), 260);
+      }
 
       function openStory(article){
         const body = article.querySelector('[data-full]');
@@ -1050,14 +1077,18 @@
         body.classList.add('is-open');
         body.setAttribute('aria-hidden', 'false');
 
-        const target = body.scrollHeight;
-        body.style.maxHeight = target + 'px';
+        body.style.maxHeight = body.scrollHeight + 'px';
         body.style.opacity = '1';
 
         readMore.classList.add('hidden');
         collapse.classList.remove('hidden');
 
-        if (!prefersReduce) body.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        // After the animation, allow natural height so content inside behaves normally
+        setTimeout(() => {
+          if (body.classList.contains('is-open')) body.style.maxHeight = 'none';
+        }, 460);
+
+        scrollWithHeader(body, 'nearest');
       }
 
       function closeStory(article){
@@ -1067,8 +1098,13 @@
         const collapse = article.querySelector('.collapse-link');
         if (!body || !readMore || !collapse) return;
 
-        body.style.maxHeight = '0px';
-        body.style.opacity = '0';
+        // Lock current height before collapsing (works even when maxHeight is 'none')
+        body.style.maxHeight = body.scrollHeight + 'px';
+        requestAnimationFrame(() => {
+          body.style.maxHeight = '0px';
+          body.style.opacity = '0';
+        });
+
         body.classList.remove('is-open');
         body.setAttribute('aria-hidden', 'true');
 
@@ -1077,7 +1113,7 @@
         collapse.classList.add('hidden');
         readMore.classList.remove('hidden');
 
-        if (!prefersReduce) article.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        scrollWithHeader(article, 'start');
       }
 
       document.addEventListener('click', (e) => {
@@ -1098,11 +1134,12 @@
 
       window.addEventListener('resize', () => {
         $$('[data-full].is-open').forEach(body => {
-          body.style.maxHeight = body.scrollHeight + 'px';
+          body.style.maxHeight = 'none';
         });
       }, { passive: true });
     })();
 
+    // 2) Submit flow: no fake localhost, use mailto fallback
     (function storySubmitInit() {
       const form = document.getElementById("storyForm");
       const feedback = document.getElementById("storyFeedback");
@@ -1121,7 +1158,7 @@
         textarea.addEventListener('input', () => autoGrow(textarea), { passive: true });
       }
 
-      form.addEventListener("submit", async function (e) {
+      form.addEventListener("submit", function (e) {
         e.preventDefault();
 
         const title = document.getElementById("storyTitle")?.value.trim();
@@ -1133,29 +1170,24 @@
           return;
         }
 
-        const endpoint = "http://localhost:4000/stories";
+        // Change this to your preferred recipient later (or keep blank and let user choose)
+        const to = "";
+        const subject = encodeURIComponent("SOA Submission: " + title);
+        const body = encodeURIComponent(
+          "Title: " + title + "\n" +
+          "Author: " + author + "\n\n" +
+          content + "\n\n" +
+          "Sent from: https://zvikoz.github.io/S-O-A/"
+        );
 
-        try {
-          if (btn){ btn.disabled = true; btn.textContent = "Submitting..."; btn.style.opacity = ".85"; }
-          if (feedback) feedback.textContent = "Sending story...";
+        if (btn){ btn.disabled = true; btn.textContent = "Opening email..."; btn.style.opacity = ".85"; }
+        if (feedback) feedback.textContent = "Your email app is opening with the story prefilled.";
 
-          const res = await fetch(endpoint, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ title, author, content })
-          });
+        window.location.href = "mailto:" + to + "?subject=" + subject + "&body=" + body;
 
-          if (!res.ok) throw new Error("Failed");
-
-          form.reset();
-          if (feedback) feedback.textContent = "Story submitted. Thank you.";
-        } catch (err) {
-          console.error(err);
-          if (feedback) feedback.textContent = "Submission is not live yet (backend not connected).";
-        } finally {
-          if (btn){ btn.disabled = false; btn.textContent = "Submit story"; btn.style.opacity = "1"; }
-          if (textarea) autoGrow(textarea);
-        }
+        setTimeout(() => {
+          if (btn){ btn.disabled = false; btn.textContent = "Prepare email"; btn.style.opacity = "1"; }
+        }, 900);
       });
     })();
 
