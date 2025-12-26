@@ -5,16 +5,21 @@
   <meta charset="utf-8" />  
   <meta name="viewport" content="width=device-width, initial-scale=1" />  
   <title>Stories of Amazement</title>  
-  <meta name="description" content="Short reflections, images, audio and playlists about human amazement and connection." />    <!-- 1) Metadata fixed for your live GitHub Pages site -->    <link rel="canonical" href="https://zvikoz.github.io/S-O-A/" />  
-  <meta name="theme-color" content="#000000" />    <meta property="og:type" content="website" />  
+  <meta name="description" content="Short reflections, images, audio and playlists about human amazement and connection." />
+  <link rel="canonical" href="https://zvikoz.github.io/S-O-A/" />  
+  <meta name="theme-color" content="#000000" />    
+  <meta property="og:type" content="website" />  
   <meta property="og:title" content="Stories of Amazement" />  
   <meta property="og:description" content="Short reflections, images, audio and playlists about human amazement and connection." />  
-  <!-- Use a file that definitely exists today -->  
   <meta property="og:image" content="https://zvikoz.github.io/S-O-A/media/soa_logo.png" />  
-  <meta property="og:url" content="https://zvikoz.github.io/S-O-A/" />    <meta name="twitter:card" content="summary_large_image" />  
-  <meta name="robots" content="index, follow" />    <link rel="preconnect" href="https://open.spotify.com" crossorigin>  
-  <link rel="preconnect" href="https://i.scdn.co" crossorigin>    <link rel="preload" as="image" href="media/hero_hands.png">  
-  <link rel="icon" href="media/soa_logo.png" type="image/png">    <script src="https://cdn.tailwindcss.com"></script>    <style>  
+  <meta property="og:url" content="https://zvikoz.github.io/S-O-A/" />    
+  <meta name="twitter:card" content="summary_large_image" />  
+  <meta name="robots" content="index, follow" />    
+  <link rel="preconnect" href="https://i.scdn.co" crossorigin>    
+  <link rel="preload" as="image" href="media/hero_hands.png">  
+  <link rel="icon" href="media/soa_logo.png" type="image/png">    
+  <script src="https://cdn.tailwindcss.com"></script>    
+  <style>  
     :root{  
       --accent: #ff7900;  
       --bg: #000;  
@@ -347,7 +352,6 @@
     }  
     .story-controls .btn-lite:hover{ border-color: rgba(255,121,0,.7); color:#fff; }  
   
-    /* 2) Submit clarity, make "not live" explicit but tasteful */  
     .notice{  
       border: 1px solid rgba(255,255,255,.12);  
       background: rgba(0,0,0,.35);  
@@ -359,7 +363,6 @@
     .notice a{ color:#fff; text-decoration:none; border-bottom:1px solid rgba(255,255,255,.2); }  
     .notice a:hover{ border-bottom-color: rgba(255,121,0,.8); }  
   
-    /* Submit status styles */  
     .status{  
       border:1px solid rgba(255,255,255,.12);  
       background: rgba(0,0,0,.25);  
@@ -482,7 +485,6 @@
     </div>  
 
     <div class="text-sm text-gray-300 prose" data-prose>  
-      <!-- 3) Read-more polish: tighter teaser -->  
       <p class="teaser mb-4">  
         We once trusted men in overcoats and chaos. Today the paper is gone. The faith remains.  
       </p>  
@@ -655,7 +657,7 @@
   <div class="playlist-card rounded-2xl bg-black/40 overflow-hidden reveal" style="min-height:180px;">  
     <div class="iframe-skeleton" aria-hidden="true"></div>  
     <iframe  
-      src="https://open.spotify.com/embed/playlist/24V7Kz8fiT75iZ7GV782ze"  
+      src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWvAiTeqOx?utm_source=generator"  
       width="100%" height="380"  
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"  
       loading="lazy"  
@@ -666,7 +668,7 @@
   <div class="playlist-card rounded-2xl bg-black/40 overflow-hidden reveal" style="min-height:180px;">  
     <div class="iframe-skeleton" aria-hidden="true"></div>  
     <iframe  
-      src="https://open.spotify.com/embed/playlist/0tM0unRHtx4J3McyQDvLHr"  
+      src="https://open.spotify.com/embed/playlist/37i9dQZF1DX2sQHbtS0SIn?utm_source=generator"  
       width="100%" height="380"  
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"  
       loading="lazy"  
@@ -676,7 +678,7 @@
 </div>
 
   </section>    <section id="archive" class="bg-black py-12 md:py-16">  
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">  
+    <div class="max-w-6xl auto px-4 sm:px-6">  
       <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-center">  
         Thrifted Threads  
         <span class="block w-16 h-1 bg-orange-500 mx-auto mt-3"></span>  
@@ -695,7 +697,7 @@
   </article>  
 </div>
 
-  </section>    <!-- ✅ UPDATED SUBMIT SECTION: now posts to Google Form + includes Images link -->    <section id="submit" class="bg-white/5 py-12 md:py-20">  
+  </section>    <section id="submit" class="bg-white/5 py-12 md:py-20">  
     <div class="max-w-xl mx-auto px-4 sm:px-6 text-center">  
       <img  
         src="media/submit_cassette.png"  
@@ -710,7 +712,6 @@
     This is now live. Your submission is sent to the Stories of Amazement inbox via Google Forms.  
   </div>  
 
-  <!-- Posts directly to Google Forms -->  
   <form  
     id="storyForm"  
     class="space-y-4 text-left max-w-md mx-auto"  
@@ -719,7 +720,6 @@
     target="hidden_iframe"  
     autocomplete="on"  
   >  
-    <!-- Title -->  
     <div>  
       <label for="storyTitle" class="block text-sm text-gray-300 mb-1">Title</label>  
       <input  
@@ -732,7 +732,6 @@
       />  
     </div>  
 
-    <!-- Author -->  
     <div>  
       <label for="authorName" class="block text-sm text-gray-300 mb-1">Your name</label>  
       <input  
@@ -745,7 +744,6 @@
       />  
     </div>  
 
-    <!-- Story -->  
     <div>  
       <label for="storyContent" class="block text-sm text-gray-300 mb-1">Story</label>  
       <textarea  
@@ -759,7 +757,6 @@
       <div class="helper">Short or long, both welcome.</div>  
     </div>  
 
-    <!-- Images link -->  
     <div>  
       <label for="imagesLink" class="block text-sm text-gray-300 mb-1">Images link</label>  
       <input  
@@ -777,7 +774,6 @@
     <div id="storyFeedback" class="status hidden" aria-live="polite"></div>  
   </form>  
 
-  <!-- hidden iframe so the page doesn't navigate away -->  
   <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" title="hidden"></iframe>  
 </div>
 
@@ -802,7 +798,7 @@
     </div>  
   </div>    <div id="toTop" aria-hidden="true">  
     <button type="button" aria-label="Back to top" title="Back to top">Top</button>  
-  </div>    <!-- Bottom Nav (Listen and Fashion swapped) -->    <nav id="bottomNav" class="md:hidden flex" aria-label="Bottom navigation">  
+  </div>    <nav id="bottomNav" class="md:hidden flex" aria-label="Bottom navigation">  
     <a href="#hero" data-nav="hero" aria-label="Home">  
       <img src="media/soa_logo.png" alt="" class="nav-logo" loading="eager" decoding="async">  
       Home  
@@ -1056,7 +1052,6 @@
       }, { passive: true });  
     })();  
   
-    // 3) Read-more polish: better open/close behaviour and scroll positioning  
     (function storyToggleInit(){  
       const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;  
   
@@ -1075,21 +1070,16 @@
         if (!body || !readMore || !collapse) return;  
   
         if (preview) preview.classList.add('hidden');  
-  
         body.classList.add('is-open');  
         body.setAttribute('aria-hidden', 'false');  
-  
         body.style.maxHeight = body.scrollHeight + 'px';  
         body.style.opacity = '1';  
-  
         readMore.classList.add('hidden');  
         collapse.classList.remove('hidden');  
   
-        // After the animation, allow natural height so content inside behaves normally  
         setTimeout(() => {  
           if (body.classList.contains('is-open')) body.style.maxHeight = 'none';  
         }, 460);  
-  
         scrollWithHeader(body, 'nearest');  
       }  
   
@@ -1100,28 +1090,22 @@
         const collapse = article.querySelector('.collapse-link');  
         if (!body || !readMore || !collapse) return;  
   
-        // Lock current height before collapsing (works even when maxHeight is 'none')  
         body.style.maxHeight = body.scrollHeight + 'px';  
         requestAnimationFrame(() => {  
           body.style.maxHeight = '0px';  
           body.style.opacity = '0';  
         });  
-  
         body.classList.remove('is-open');  
         body.setAttribute('aria-hidden', 'true');  
-  
         if (preview) preview.classList.remove('hidden');  
-  
         collapse.classList.add('hidden');  
         readMore.classList.remove('hidden');  
-  
         scrollWithHeader(article, 'start');  
       }  
   
       document.addEventListener('click', (e) => {  
         const read = e.target.closest('.read-more-link');  
         const col = e.target.closest('.collapse-link');  
-  
         if (read) {  
           e.preventDefault();  
           const article = read.closest('article');  
@@ -1133,15 +1117,8 @@
           if (article) closeStory(article);  
         }  
       });  
-  
-      window.addEventListener('resize', () => {  
-        $$('[data-full].is-open').forEach(body => {  
-          body.style.maxHeight = 'none';  
-        });  
-      }, { passive: true });  
     })();  
   
-    // ✅ UPDATED Submit handling: show success message after iframe post  
     (function storySubmitInit() {  
       const form = document.getElementById("storyForm");  
       const feedback = document.getElementById("storyFeedback");  
@@ -1162,7 +1139,6 @@
       }  
   
       let submitted = false;  
-  
       form.addEventListener("submit", function () {  
         submitted = true;  
         if (btn){ btn.disabled = true; btn.textContent = "Submitting..."; btn.style.opacity = ".85"; }  
@@ -1176,21 +1152,14 @@
       iframe?.addEventListener("load", function () {  
         if (!submitted) return;  
         submitted = false;  
-  
         if (feedback){  
           feedback.classList.remove('error');  
           feedback.classList.add('success');  
           feedback.textContent = "Submitted. Thank you. We’ve received it.";  
         }  
-  
         form.reset();  
         if (textarea) autoGrow(textarea);  
-  
-        if (btn){  
-          btn.disabled = false;  
-          btn.textContent = "Submit";  
-          btn.style.opacity = "1";  
-        }  
+        if (btn){ btn.disabled = false; btn.textContent = "Submit"; btn.style.opacity = "1"; }  
       });  
     })();  
   
@@ -1198,7 +1167,6 @@
       const wrap = document.getElementById('toTop');  
       if (!wrap) return;  
       const btn = wrap.querySelector('button');  
-  
       function update(){  
         const doc = document.documentElement;  
         const y = doc.scrollTop || document.body.scrollTop;  
@@ -1207,11 +1175,9 @@
         if (pct > 0.25) wrap.classList.add('show');  
         else wrap.classList.remove('show');  
       }  
-  
       btn.addEventListener('click', () => {  
         window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });  
       });  
-  
       window.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });  
       update();  
     })();  
@@ -1219,7 +1185,6 @@
     (function bottomNavActive(){  
       const items = Array.from(document.querySelectorAll('#bottomNav a[data-nav]'));  
       if (!items.length) return;  
-  
       const map = {  
         hero: document.getElementById('hero'),  
         stories: document.getElementById('stories'),  
@@ -1228,7 +1193,6 @@
         music: document.getElementById('music'),  
         submit: document.getElementById('submit')  
       };  
-  
       const io = new IntersectionObserver((entries) => {  
         entries.forEach(entry => {  
           if (!entry.isIntersecting) return;  
@@ -1236,7 +1200,6 @@
           items.forEach(a => a.classList.toggle('active', a.getAttribute('data-nav') === id));  
         });  
       }, { threshold: 0.4 });  
-  
       Object.values(map).forEach(el => el && io.observe(el));  
     })();  
   
@@ -1252,9 +1215,8 @@
       const index = Array.from(document.querySelectorAll('[data-story], section[id], article[id]')).map(el => {  
         if (el.matches('[data-story]')) {  
           const title = el.getAttribute('data-title') || '';  
-          const author = el.getAttribute('data-author') || '';  
           const text = (el.innerText || '').replace(/\s+/g,' ').trim();  
-          return { type: 'Story', title, meta: author ? `By ${author}` : '', text, href: '#stories' };  
+          return { type: 'Story', title, meta: el.getAttribute('data-author') || '', text, href: '#stories' };  
         }  
         const id = el.id || '';  
         const heading = el.querySelector('h2')?.innerText?.trim() || el.querySelector('h3')?.innerText?.trim() || id;  
@@ -1262,75 +1224,37 @@
         return { type: 'Section', title: heading, meta: id, text, href: `#${id}` };  
       });  
   
-      function onKey(e){ if (e.key === 'Escape') close(); }  
-  
       function open(){  
         sheet.classList.add('open');  
         document.body.style.overflow = 'hidden';  
         setTimeout(() => input.focus(), 30);  
         render('');  
-        document.addEventListener('keydown', onKey);  
       }  
       function close(){  
         sheet.classList.remove('open');  
         document.body.style.overflow = '';  
-        document.removeEventListener('keydown', onKey);  
       }  
-  
       function render(q){  
         const query = (q || '').trim().toLowerCase();  
-        if (!query){  
-          results.innerHTML = '<p class="text-gray-400">Start typing to search.</p>';  
-          return;  
-        }  
-        const hits = index  
-          .map(item => {  
-            const hay = `${item.title} ${item.meta} ${item.text}`.toLowerCase();  
-            const score = hay.includes(query) ? 1 : 0;  
-            return { item, score };  
-          })  
-          .filter(x => x.score > 0)  
-          .slice(0, 8)  
-          .map(x => x.item);  
-  
-        if (!hits.length){  
-          results.innerHTML = '<p class="text-gray-400">No matches. Try another word.</p>';  
-          return;  
-        }  
-  
-        results.innerHTML = hits.map(h => `  
-          <div class="result">  
-            <a href="${h.href}" data-close-search="1"><strong>${h.title}</strong></a>  
-            <p>${h.type}${h.meta ? ' · ' + h.meta : ''}</p>  
-          </div>  
-        `).join('');  
+        if (!query){ results.innerHTML = '<p class="text-gray-400">Start typing to search.</p>'; return; }  
+        const hits = index.filter(item => `${item.title} ${item.meta} ${item.text}`.toLowerCase().includes(query)).slice(0, 8);  
+        if (!hits.length){ results.innerHTML = '<p class="text-gray-400">No matches.</p>'; return; }  
+        results.innerHTML = hits.map(h => `<div class="result"><a href="${h.href}" onclick="document.getElementById('searchSheet').classList.remove('open'); document.body.style.overflow = '';"><strong>${h.title}</strong></a><p>${h.type}</p></div>`).join('');  
       }  
-  
       openBtn?.addEventListener('click', open);  
       openBtnMobile?.addEventListener('click', open);  
       closeBtn?.addEventListener('click', close);  
-  
-      input.addEventListener('input', (e) => render(e.target.value), { passive: true });  
-  
-      sheet.addEventListener('click', (e) => {  
-        if (e.target === sheet) close();  
-        const a = e.target.closest('a[data-close-search]');  
-        if (a) close();  
-      });  
+      input.addEventListener('input', (e) => render(e.target.value));  
     })();  
   
     (function readTimeInit(){  
       const badge = document.getElementById('readTime1');  
       const article = document.querySelector('article[data-story]');  
       if (!badge || !article) return;  
-  
       const full = article.querySelector('[data-full]');  
-      if (!full) return;  
-  
-      const text = (full.innerText || '').replace(/\s+/g,' ').trim();  
-      const words = text ? text.split(' ').length : 0;  
-      const minutes = Math.max(1, Math.round(words / 200));  
-      badge.textContent = minutes + " min read";  
+      const words = (full?.innerText || '').split(' ').length;  
+      badge.textContent = Math.max(1, Math.round(words / 200)) + " min read";  
     })();  
   </script>  </body>  
-</html>  
+</html>
+
