@@ -224,13 +224,24 @@
     #bottomNav a.active{ color:#fff; }
     #bottomNav svg{ color: var(--icon-accent); }
 
+    /* Home Logo Specific Styling */
+    #bottomNav a.home-icon-only {
+      gap: 0;
+      justify-content: center;
+    }
+
     .nav-logo{
-      width:18px;
-      height:18px;
+      width:24px; /* Slightly larger since there is no text */
+      height:24px;
       border-radius:6px;
       object-fit:contain;
       display:block;
       opacity:.95;
+      transition: transform 0.2s ease;
+    }
+    
+    .home-icon-only:active .nav-logo {
+      transform: scale(0.9);
     }
 
     @media (min-width: 768px){
@@ -841,9 +852,8 @@
   </div>
 
   <nav id="bottomNav" class="md:hidden flex" aria-label="Bottom navigation">
-    <a href="#hero" data-nav="hero" aria-label="Home">
-      <img src="media/soa_logo.png" alt="" class="nav-logo" loading="eager" decoding="async">
-      Home
+    <a href="#hero" data-nav="hero" aria-label="Home" class="home-icon-only">
+      <img src="media/soa_logo.png" alt="Home" class="nav-logo" loading="eager" decoding="async">
     </a>
 
     <a href="#stories" data-nav="stories">
